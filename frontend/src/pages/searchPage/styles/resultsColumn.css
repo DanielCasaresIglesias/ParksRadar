@@ -9,7 +9,8 @@
 }
 
 /* ─── Header (Sort/View + Search) ────────────────────────────────────────── */
-.left-controls {
+.results-header {
+  flex: none;
   display: flex;
   align-items: center;
 }
@@ -20,7 +21,7 @@
 }
 
 .dropdown-pair > * {
-  width: 110px; /* fixed equal width for Sort + View */
+  width: 3rem; /* fixed equal width for Sort + View */
 }
 
 /* make sure expanding the search bar does NOT push them around */
@@ -45,7 +46,7 @@
 }
 
 .expandable-search {
-  position: absolute;
+  position: relative;
   right: 1rem;
 }
 
