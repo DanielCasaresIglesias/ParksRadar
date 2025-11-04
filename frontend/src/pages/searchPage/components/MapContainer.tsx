@@ -17,10 +17,10 @@ const MapContainer = forwardRef<LeafletMap | null, {}>((props, ref) => {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(mapInstance.current);
 
-    L.marker([37.7749, -122.4194])
-      .addTo(mapInstance.current)
-      .bindPopup("San Francisco, CA")
-      .openPopup();
+    // L.marker([37.7749, -122.4194])
+    //   .addTo(mapInstance.current)
+    //   .bindPopup("San Francisco, CA")
+    //   .openPopup();
 
     L.control.zoom({
       position: 'topright'
