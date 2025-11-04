@@ -82,7 +82,7 @@ const labelFor = (active?: { field: SortField | null; dir: SortDirection | null 
   const arrow = d === 'asc' ? ' ▲' : d === 'desc' ? ' ▼' : '';
   switch (f) {
     case 'name': return `Name${arrow}`;
-    case 'rating': return `Average rating${arrow}`;
+    case 'rating': return `Rating${arrow}`;
     case 'distance': return `Distance${arrow}`;
     case 'random': return 'Random';
     default: return 'Default';
@@ -175,7 +175,7 @@ const SortDropdown: React.FC<Props> = ({ results, userLocation, active, onApplyS
           </li>
 
           <li role="menuitem" className="sort-option" onClick={() => applySort('rating')}>
-            <span>Average rating</span>
+            <span>Rating</span>
             <span className="sort-arrow">{arrowFor('rating')}</span>
           </li>
 

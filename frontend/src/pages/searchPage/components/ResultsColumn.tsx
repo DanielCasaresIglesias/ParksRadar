@@ -13,6 +13,7 @@ type ResultsColumnProps = {
   minimized: boolean;
   // optional: include user's resolved coords when distance filter is active
   userLocation?: { lat: number; lon: number } | null;
+  loading?: boolean;
 };
 
 const ResultsColumn: React.FC<ResultsColumnProps> = ({
@@ -20,6 +21,7 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
   onParkSelect,
   minimized,
   userLocation = null,
+  loading = false,
 }) => {
   // local sort state
   const [activeSort, setActiveSort] = useState<{ field: SortField | null; dir: SortDirection | null }>({
@@ -48,27 +50,39 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
     <div className={`results-column ${minimized ? 'minimized' : ''}`}>
       <div className="results-header">
         <div className="left-controls">
-          <SortDropdown
-            results={results}
-            userLocation={userLocation}
-            active={activeSort}
-            onApplySort={handleApplySort}
-          />
-          <ViewDropdown active={viewMode} onChange={setViewMode} />
+          <div className="dropdown-pair">
+            <SortDropdown
+              results={results}
+              userLocation={userLocation}
+              active={activeSort}
+              onApplySort={handleApplySort}
+            />
+            <ViewDropdown active={viewMode} onChange={setViewMode} />
+          </div>
         </div>
         <ExpandableSearch />
       </div>
 
       <div className="results-list">
-        {sortedResults.map((park) => (
-          <ParkResult
-            key={park.park_id}
-            park={park}
-            onSelect={onParkSelect}
-            view={viewMode}
-          />
-        ))}
+        {loading ? (
+          <div className="loading-spinner-container">
+            <div className="loading-spinner"></div>
+          </div>
+        ) : sortedResults.length > 0 ? (
+          sortedResults.map((park) => (
+            <ParkResult
+              key={park.park_id}
+              park={park}
+              onSelect={onParkSelect}
+              view={viewMode}
+            />
+          ))
+        ) : (
+          <div className="no-results">No results found.</div>
+        )}
       </div>
+
+
     </div>
   );
 };

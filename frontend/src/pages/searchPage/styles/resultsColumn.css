@@ -9,15 +9,46 @@
 }
 
 /* ─── Header (Sort/View + Search) ────────────────────────────────────────── */
-.results-header {
-  flex: none;                 /* don’t grow or shrink */
+.left-controls {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background: white;
-  z-index: 2;
 }
+
+.dropdown-pair {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dropdown-pair > * {
+  width: 110px; /* fixed equal width for Sort + View */
+}
+
+/* make sure expanding the search bar does NOT push them around */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+
+.results-header > .left-controls {
+  flex: none;
+}
+
+.expandable-search {
+  transition: width 0.3s ease;
+  white-space: nowrap;
+}
+
+.results-header {
+  position: relative;
+}
+
+.expandable-search {
+  position: absolute;
+  right: 1rem;
+}
+
 
 /* ─── Scrollable List ───────────────────────────────────────────────────── */
 .results-list {
@@ -166,3 +197,35 @@
   grid-gap: 0.35rem;
 }
 */
+
+
+/* THROBBER CSS */
+.loading-spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top-color: #0078d7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-size: 1rem;
+  font-style: italic;
+}

@@ -18,6 +18,8 @@ const SearchPage: React.FC = () => {
   const [selectedPark, setSelectedPark] = useState<any>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [resultsMinimized, setResultsMinimized] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   // Map ref to store Leaflet instance
   const mapRef = useRef<any>(null);
@@ -130,11 +132,14 @@ const SearchPage: React.FC = () => {
   // Whenever filters change, fetch new park list
   useEffect(() => {
     async function loadParks() {
+      setLoading(true);
       try {
         const data = await fetchParks(filters);
         setParks(data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
     loadParks();
@@ -293,6 +298,7 @@ const SearchPage: React.FC = () => {
               results={parks}
               onParkSelect={handleParkSelect}
               minimized={resultsMinimized}
+              loading={loading}
             />
           </div>
           <div className="results-toggle" onClick={handleMinimize}>
