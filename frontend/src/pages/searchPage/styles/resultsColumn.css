@@ -8,48 +8,60 @@
   border-right: 1px solid #ccc;
 }
 
+
 /* ─── Header (Sort/View + Search) ────────────────────────────────────────── */
 .results-header {
-  flex: none;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr; /* left (buttons), right (search) */
   align-items: center;
+  padding: 0.5rem 1rem;
+  background: white;
+  z-index: 2;
+  gap: 1rem; /* space between left and right */
 }
 
-.dropdown-pair {
+/* Left button group */
+.results-header-left {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
 }
 
-.dropdown-pair > * {
-  width: 3rem; /* fixed equal width for Sort + View */
+/* Each Button */
+.results-header-left SortDropdown, ViewDropdown {
+  min-width: 8rem;
+  font-size: 0.85rem;
+  padding: 0.3rem 0;
+  text-align: center;
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:  background-color 0.2s ease;
 }
 
-/* make sure expanding the search bar does NOT push them around */
-.results-header {
+.results-header-left button:hover {
+  background-color: #e5e7eb;
+}
+
+
+/* Right (search container area) */
+.results-header-right {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden; /* so search doesn’t overflow when expanding */
 }
 
-.results-header > .left-controls {
-  flex: none;
+/* Adjusted expandable search container */
+.expandable-search-container {
+  width: 85%;
+  max-width: 16rem; /* full expanded width limit */
+  display: flex;
+  justify-content: flex-end;
+  transition: all 0.3s ease;
 }
-
-.expandable-search {
-  transition: width 0.3s ease;
-  white-space: nowrap;
-}
-
-.results-header {
-  position: relative;
-}
-
-.expandable-search {
-  position: relative;
-  right: 1rem;
-}
-
 
 /* ─── Scrollable List ───────────────────────────────────────────────────── */
 .results-list {

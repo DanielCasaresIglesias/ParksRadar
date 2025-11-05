@@ -4,7 +4,6 @@
 .view-dropdown {
   display: inline-block;
   position: relative;
-  margin-left: 8px;
   font-family: inherit;
   line-height: 1;
 }
@@ -16,8 +15,8 @@
   border: 1px solid var(--btn-border, #ccc);
   background: var(--btn-bg, #fff);
   cursor: pointer;
-  font-size: 0.95rem;
-  min-width: 110px;
+  font-size: 0.85rem;
+  min-width: 8rem;
   text-align: left;
 }
 
@@ -41,7 +40,7 @@
 .view-option {
   padding: 8px 12px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,5 +62,11 @@
 /* optional checkmark alignment */
 .view-option .check {
   opacity: 0.95;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+}
+
+.sort-arrow {
+  margin-left: 12px;
+  font-size: 0.85rem;
+  opacity: 0.9;
 }

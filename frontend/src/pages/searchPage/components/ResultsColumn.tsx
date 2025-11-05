@@ -49,18 +49,18 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
   return (
     <div className={`results-column ${minimized ? 'minimized' : ''}`}>
       <div className="results-header">
-        <div className="left-controls">
-          <div className="dropdown-pair">
-            <SortDropdown
-              results={results}
-              userLocation={userLocation}
-              active={activeSort}
-              onApplySort={handleApplySort}
-            />
-            <ViewDropdown active={viewMode} onChange={setViewMode} />
-          </div>
+        <div className="results-header-left">
+          <SortDropdown
+            results={results}
+            userLocation={userLocation}
+            active={activeSort}
+            onApplySort={handleApplySort}
+          />
+          <ViewDropdown active={viewMode} onChange={setViewMode} />
         </div>
-        <ExpandableSearch />
+        <div className="results-header-right">
+          <ExpandableSearch />
+        </div>
       </div>
 
       <div className="results-list">

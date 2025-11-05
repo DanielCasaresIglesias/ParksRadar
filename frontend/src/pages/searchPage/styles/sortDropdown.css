@@ -10,9 +10,9 @@
   background: var(--btn-bg, #fff);
   border: 1px solid var(--btn-border, #ccc);
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   cursor: pointer;
-  min-width: 110px; /* ensure 'Sort: Default' fits */
+  min-width: 8rem;
   text-align: left;
   white-space: nowrap;
 }
@@ -35,19 +35,34 @@
 
 .sort-option {
   padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.85rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  font-size: 0.95rem;
+  gap: 8px;
 }
 
-.sort-option:hover {
+/* highlight active */
+.sort-option.active {
+  font-weight: 600;
+}
+
+/* hover / focus */
+.sort-option:hover,
+.sort-option:focus {
   background: rgba(0,0,0,0.03);
+  outline: none;
+}
+
+/* optional checkmark alignment */
+.sort-option .check {
+  opacity: 0.95;
+  font-size: 0.85rem;
 }
 
 .sort-arrow {
   margin-left: 12px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.9;
 }
