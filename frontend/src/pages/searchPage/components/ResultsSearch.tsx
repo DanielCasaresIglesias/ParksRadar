@@ -1,19 +1,23 @@
-// ExpandableSearch.tsx
-import React, { useState, useRef } from "react";
-import "../styles/expandableSearch.css";
+// frontend/src/components/ResultsSearch.tsx
+import React, { useRef } from "react";
+import "../styles/resultsSearch.css";
 
-const ExpandableSearch: React.FC = () => {
-  const [query, setQuery] = useState<string>("");
+type ResultsSearchProps = {
+  query: string;
+  onSearchChange: (value: string) => void;
+};
+
+const ResultsSearch: React.FC<ResultsSearchProps> = ({ query, onSearchChange }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClear = () => {
-    setQuery("");
+    onSearchChange("");
     inputRef.current?.focus();
   };
 
   return (
-    <div className="expandable-search-container">
-      <div className="expandable-search expanded">
+    <div className="results-search-container">
+      <div className="results-search expanded">
         <div className="search-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <path d="M10,18 C14.418278,18 18,14.418278 18,10 C18,5.581722 14.418278,2 10,2 C5.581722,2 2,5.581722 2,10 C2,14.418278 5.581722,18 10,18 Z M10,20 C4.4771525,20 0,15.5228475 0,10 C0,4.4771525 4.4771525,0 10,0 C15.5228475,0 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 Z" fill="currentColor"/>
@@ -24,7 +28,7 @@ const ExpandableSearch: React.FC = () => {
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Enter park name"
         />
         {query && (
@@ -39,4 +43,4 @@ const ExpandableSearch: React.FC = () => {
   );
 };
 
-export default ExpandableSearch;
+export default ResultsSearch;
