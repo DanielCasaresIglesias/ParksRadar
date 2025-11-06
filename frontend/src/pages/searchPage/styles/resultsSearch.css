@@ -1,11 +1,11 @@
-.expandable-search-container {
+.results-search-container {
   margin-left: auto;
   position: relative;
   display: flex;
   align-items: flex-start;
 }
 
-.expandable-search {
+.results-search {
   display: flex;
   align-items: center;
   border: 2px solid #d1d5db;
@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-.expandable-search input {
+.results-search input {
   flex-grow: 1;
   width: 80%;
   border: none;
@@ -27,7 +27,7 @@
   color: #1f2937;
 }
 
-.expandable-search .clear-button {
+.results-search .clear-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -41,11 +41,11 @@
   color: black;
 }
 
-.expandable-search .clear-button svg {
+.results-search .clear-button svg {
   width: 1rem;
   height: 1rem;
 }
 
-.expandable-search .search-icon {
+.results-search .search-icon {
   fill: #6b7280;
 }

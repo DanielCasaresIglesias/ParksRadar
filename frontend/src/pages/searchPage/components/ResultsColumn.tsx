@@ -1,6 +1,6 @@
 // frontend/src/components/ResultsColumn.tsx
 import React, { useState } from 'react';
-import ExpandableSearch from './ExpandableSearch';
+import ResultsSearch from './ResultsSearch';
 import '../styles/resultsColumn.css';
 import { type Park } from '../../../types/park';
 import ParkResult from './ParkResult';
@@ -31,6 +31,10 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
 
   // maintain the sorted list; default is original order
   const [sortedResults, setSortedResults] = useState<Park[]>(results);
+  // search query state
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  // view mode state: detailed is default
+  const [viewMode, setViewMode] = useState<ViewMode>('detailed');
 
   // if results prop changes (new search), reset sortedResults to match incoming results
   React.useEffect(() => {
@@ -43,8 +47,14 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
     setSortedResults(sorted);
   };
 
-  // view mode state: detailed is default
-  const [viewMode, setViewMode] = useState<ViewMode>('detailed');
+  // helper to strip accents and lowercase
+  const normalize = (str: string) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  // Filter by search query
+  const filteredResults = sortedResults.filter((park) =>
+    normalize(park.park_name).includes(normalize(searchQuery))
+  );
 
   return (
     <div className={`results-column ${minimized ? 'minimized' : ''}`}>
@@ -59,7 +69,7 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
           <ViewDropdown active={viewMode} onChange={setViewMode} />
         </div>
         <div className="results-header-right">
-          <ExpandableSearch />
+          <ResultsSearch query={searchQuery} onSearchChange={setSearchQuery} />
         </div>
       </div>
 
@@ -68,8 +78,8 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
           <div className="loading-spinner-container">
             <div className="loading-spinner"></div>
           </div>
-        ) : sortedResults.length > 0 ? (
-          sortedResults.map((park) => (
+        ) : filteredResults.length > 0 ? (
+          filteredResults.map((park) => (
             <ParkResult
               key={park.park_id}
               park={park}
