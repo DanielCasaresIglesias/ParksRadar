@@ -47,9 +47,13 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
     setSortedResults(sorted);
   };
 
-  // 🧠 Filter by search query (case-insensitive)
-  const filteredResults = sortedResults.filter(park =>
-    park.park_name.toLowerCase().includes(searchQuery.toLowerCase())
+  // helper to strip accents and lowercase
+  const normalize = (str: string) =>
+    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+  // Filter by search query
+  const filteredResults = sortedResults.filter((park) =>
+    normalize(park.park_name).includes(normalize(searchQuery))
   );
 
   return (
