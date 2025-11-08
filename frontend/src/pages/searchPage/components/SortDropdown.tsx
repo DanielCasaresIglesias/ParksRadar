@@ -169,27 +169,44 @@ const SortDropdown: React.FC<Props> = ({ results, userLocation, active, onApplyS
 
       {open && (
         <ul className="sort-options" role="menu">
-          <li role="menuitem" className="sort-option" onClick={() => applySort('name')}>
+          <li
+            role="menuitem"
+            className={`sort-option ${active?.field === 'name' ? 'active' : ''}`}
+            onClick={() => applySort('name')}
+          >
             <span>Name</span>
             <span className="sort-arrow">{arrowFor('name')}</span>
           </li>
 
-          <li role="menuitem" className="sort-option" onClick={() => applySort('rating')}>
+          <li
+            role="menuitem"
+            className={`sort-option ${active?.field === 'rating' ? 'active' : ''}`}
+            onClick={() => applySort('rating')}
+          >
             <span>Rating</span>
             <span className="sort-arrow">{arrowFor('rating')}</span>
           </li>
 
           {userLocation && (
-            <li role="menuitem" className="sort-option" onClick={() => applySort('distance')}>
+            <li
+              role="menuitem"
+              className={`sort-option ${active?.field === 'distance' ? 'active' : ''}`}
+              onClick={() => applySort('distance')}
+            >
               <span>Distance</span>
               <span className="sort-arrow">{arrowFor('distance')}</span>
             </li>
           )}
 
-          <li role="menuitem" className="sort-option" onClick={() => applySort('random')}>
+          <li
+            role="menuitem"
+            className={`sort-option ${active?.field === 'random' ? 'active' : ''}`}
+            onClick={() => applySort('random')}
+          >
             <span>Random</span>
           </li>
         </ul>
+
       )}
     </div>
   );
