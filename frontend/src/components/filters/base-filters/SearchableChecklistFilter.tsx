@@ -27,7 +27,8 @@ const SearchableChecklistFilter: React.FC<SearchableChecklistFilterProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tempSelected, setTempSelected] = useState<string[]>(initialSelected);
-  const [appliedSelected, setAppliedSelected] = useState<string[]>(initialSelected);
+  const [appliedSelected, setAppliedSelected] =
+    useState<string[]>(initialSelected);
   const [searchTerm, setSearchTerm] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -41,8 +42,8 @@ const SearchableChecklistFilter: React.FC<SearchableChecklistFilterProps> = ({
   }, [isOpen]);
 
   const handleCheckboxChange = (opt: string) => {
-    setTempSelected(prev =>
-      prev.includes(opt) ? prev.filter(x => x !== opt) : [...prev, opt]
+    setTempSelected((prev) =>
+      prev.includes(opt) ? prev.filter((x) => x !== opt) : [...prev, opt]
     );
   };
 
@@ -59,7 +60,7 @@ const SearchableChecklistFilter: React.FC<SearchableChecklistFilterProps> = ({
     setIsOpen(false);
   };
 
-  const filteredOptions = options.filter(opt =>
+  const filteredOptions = options.filter((opt) =>
     opt.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -68,7 +69,7 @@ const SearchableChecklistFilter: React.FC<SearchableChecklistFilterProps> = ({
   return (
     <div className="filter searchable-checklist-filter" ref={wrapperRef}>
       <FilterButton
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={() => setIsOpen((prev) => !prev)}
         variant={isActive ? 'selected' : 'primary'}
         iconSrc={isActive ? selectedIconSrc : iconSrc}
         iconAlt={iconAlt}
@@ -82,11 +83,11 @@ const SearchableChecklistFilter: React.FC<SearchableChecklistFilterProps> = ({
             className="search-input"
             placeholder="Search..."
             value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="options">
             {filteredOptions.length > 0 ? (
-              filteredOptions.map(opt => (
+              filteredOptions.map((opt) => (
                 <label key={opt} className="option">
                   <input
                     type="checkbox"

@@ -18,12 +18,22 @@ const AccessibilityFilter: React.FC<AccessibilityFilterProps> = ({
       selectedIconSrc="images/filter-icons/selected-icons/accessibility-icon.png"
       iconAlt="Accessibility Icon"
       options={[
-        'Wheelchair Accessible', 'ASL Audio Guide', 'Interpretation Services',
-        'Touch Models', 'Audio Described Brochures', 'Open-Captioned Videos',
-        'Assistive Listening Devices', 'One-Way Portable Microphones',
-        'Soundscapes', 'Braille', 'Audio-Described Films',
-        'Audio Wayside Signs', 'Tactile Models', 'Audio & Large Print Exibits',
-        'Audio/Visual Tours', 'Beach Wheelchairs'
+        'Wheelchair Accessible',
+        'ASL Audio Guide',
+        'Interpretation Services',
+        'Touch Models',
+        'Audio Described Brochures',
+        'Open-Captioned Videos',
+        'Assistive Listening Devices',
+        'One-Way Portable Microphones',
+        'Soundscapes',
+        'Braille',
+        'Audio-Described Films',
+        'Audio Wayside Signs',
+        'Tactile Models',
+        'Audio & Large Print Exibits',
+        'Audio/Visual Tours',
+        'Beach Wheelchairs',
       ]}
       onChange={onChange}
       initialSelected={initialSelected}

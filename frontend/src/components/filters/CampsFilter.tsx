@@ -2,7 +2,6 @@
 import React from 'react';
 import ChecklistFilter from './base-filters/ChecklistFilter';
 
-
 type CampsFilterProps = {
   onChange: (selected: string[]) => void;
   initialSelected: string[];
@@ -10,7 +9,7 @@ type CampsFilterProps = {
 
 const CampsFilter: React.FC<CampsFilterProps> = ({
   onChange,
-  initialSelected
+  initialSelected,
 }) => {
   return (
     <ChecklistFilter

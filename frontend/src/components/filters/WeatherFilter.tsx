@@ -17,7 +17,16 @@ const WeatherFilter: React.FC<WeatherFilterProps> = ({
       iconSrc="images/filter-icons/base-icons/weather-icon.png"
       selectedIconSrc="images/filter-icons/selected-icons/weather-icon.png"
       iconAlt="Weather Icon"
-      options={['Sunny', 'Rain', 'Snow', 'Storm', 'Cloudy', 'Fog', 'Windy', 'Other']}
+      options={[
+        'Sunny',
+        'Rain',
+        'Snow',
+        'Storm',
+        'Cloudy',
+        'Fog',
+        'Windy',
+        'Other',
+      ]}
       onChange={onChange}
       initialSelected={initialSelected}
     />

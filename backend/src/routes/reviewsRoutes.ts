@@ -4,7 +4,7 @@ import {
   getReviewsByPark,
   createReview,
   updateReview,
-  deleteReview
+  deleteReview,
 } from '../controllers/reviewsController';
 import { authMiddleware } from '../middlewares/authMiddleware';
 

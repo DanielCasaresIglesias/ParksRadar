@@ -11,7 +11,7 @@ export interface ReviewPayload {
 export async function postReview(payload: ReviewPayload) {
   const res = await authFetch(`${API_URL}/reviews`, {
     method: 'POST',
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error('Failed to post review');
   return res.json();

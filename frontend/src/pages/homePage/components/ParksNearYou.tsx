@@ -63,10 +63,12 @@ const ParksNearYou: React.FC<ParksNearYouProps> = ({ location, parks }) => {
         <div className="parks-row">
           {isMobile ? (
             <>
-              {parks.map(park => (
+              {parks.map((park) => (
                 <ParkCard
                   key={park.park_id}
-                  imageSrc={park.park_photo_link != null ? park.park_photo_link : ""}
+                  imageSrc={
+                    park.park_photo_link != null ? park.park_photo_link : ''
+                  }
                   parkName={park.park_name}
                   parkType={park.park_type}
                   rating={park.park_average_rating}
@@ -81,10 +83,12 @@ const ParksNearYou: React.FC<ParksNearYouProps> = ({ location, parks }) => {
             </>
           ) : (
             <>
-              {currentParks.map(park => (
+              {currentParks.map((park) => (
                 <ParkCard
                   key={park.park_id}
-                  imageSrc={park.park_photo_link != null ? park.park_photo_link : ""}
+                  imageSrc={
+                    park.park_photo_link != null ? park.park_photo_link : ''
+                  }
                   parkName={park.park_name}
                   parkType={park.park_type}
                   rating={park.park_average_rating}

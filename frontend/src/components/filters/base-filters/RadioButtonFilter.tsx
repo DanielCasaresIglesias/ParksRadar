@@ -26,9 +26,9 @@ const RadioButtonFilter: React.FC<RadioButtonFilterProps> = ({
   initialSelected,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [appliedSelectedOption, setAppliedSelectedOption] = useState<string | null>(
-    initialSelected
-  );
+  const [appliedSelectedOption, setAppliedSelectedOption] = useState<
+    string | null
+  >(initialSelected);
   const [tempSelectedOption, setTempSelectedOption] = useState<string | null>(
     initialSelected
   );
@@ -75,7 +75,7 @@ const RadioButtonFilter: React.FC<RadioButtonFilterProps> = ({
         <div className="radiolist-filter-popup">
           <p className="title">{label}</p>
           <div className="options">
-            {options.map(opt => (
+            {options.map((opt) => (
               <label key={opt} className="option">
                 <input
                   type="radio"

@@ -68,9 +68,8 @@ const RatingFilter: React.FC<RatingFilterProps> = ({
         <div className="rating-filter-popup">
           <p className="title">Rating</p>
           <div className="star-container">
-            {[1, 2, 3, 4, 5].map(star => {
-              const filled =
-                tempRating === 0 ? star === 0 : star <= tempRating;
+            {[1, 2, 3, 4, 5].map((star) => {
+              const filled = tempRating === 0 ? star === 0 : star <= tempRating;
               return (
                 <StarIcon
                   key={star}

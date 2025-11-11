@@ -7,22 +7,37 @@ export type SortField = 'name' | 'rating' | 'distance' | 'random';
 export type SortDirection = 'asc' | 'desc';
 
 type Props = {
-  results: Park[]; // used for tie-breakers
-  userLocation?: { lat: number; lon: number } | null; // if present, show distance option
+  // used for tie-breakers
+  results: Park[];
+  // if present, show distance option
+  userLocation?: { lat: number; lon: number } | null;
   active?: { field: SortField | null; dir: SortDirection | null };
-  onApplySort: (field: SortField, dir: SortDirection | null, sorted: Park[]) => void;
+  onApplySort: (
+    field: SortField,
+    dir: SortDirection | null,
+    sorted: Park[]
+  ) => void;
 };
 
 const initialDirectionFor = (field: SortField): SortDirection | null => {
   switch (field) {
-    case 'name': return 'asc';
-    case 'rating': return 'desc';
-    case 'distance': return 'asc';
-    case 'random': return null;
+    case 'name':
+      return 'asc';
+    case 'rating':
+      return 'desc';
+    case 'distance':
+      return 'asc';
+    case 'random':
+      return null;
   }
 };
 
-const haversineDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+const haversineDistanceKm = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) => {
   const toRad = (deg: number) => (deg * Math.PI) / 180;
   const R = 6371; // km
   const dLat = toRad(lat2 - lat1);
@@ -46,8 +61,7 @@ const buildComparator = (
 
   const cmpString = (a?: string, b?: string) =>
     (a ?? '').localeCompare(b ?? '');
-  const cmpNumber = (a?: number, b?: number) =>
-    ((a ?? 0) - (b ?? 0));
+  const cmpNumber = (a?: number, b?: number) => (a ?? 0) - (b ?? 0);
 
   return (pA: any, pB: any) => {
     let primary = 0;
@@ -75,21 +89,34 @@ const buildComparator = (
   };
 };
 
-const labelFor = (active?: { field: SortField | null; dir: SortDirection | null }) => {
+const labelFor = (active?: {
+  field: SortField | null;
+  dir: SortDirection | null;
+}) => {
   if (!active || !active.field) return 'Default';
   const f = active.field;
   const d = active.dir;
   const arrow = d === 'asc' ? ' ▲' : d === 'desc' ? ' ▼' : '';
   switch (f) {
-    case 'name': return `Name${arrow}`;
-    case 'rating': return `Rating${arrow}`;
-    case 'distance': return `Distance${arrow}`;
-    case 'random': return 'Random';
-    default: return 'Default';
+    case 'name':
+      return `Name${arrow}`;
+    case 'rating':
+      return `Rating${arrow}`;
+    case 'distance':
+      return `Distance${arrow}`;
+    case 'random':
+      return 'Random';
+    default:
+      return 'Default';
   }
 };
 
-const SortDropdown: React.FC<Props> = ({ results, userLocation, active, onApplySort }) => {
+const SortDropdown: React.FC<Props> = ({
+  results,
+  userLocation,
+  active,
+  onApplySort,
+}) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -98,7 +125,12 @@ const SortDropdown: React.FC<Props> = ({ results, userLocation, active, onApplyS
     if (!userLocation) return undefined;
     const map = new Map<number, number>();
     for (const p of results) {
-      const d = haversineDistanceKm(userLocation.lat, userLocation.lon, p.park_latitude, p.park_longitude);
+      const d = haversineDistanceKm(
+        userLocation.lat,
+        userLocation.lon,
+        p.park_latitude,
+        p.park_longitude
+      );
       map.set(p.park_id, d);
     }
     return map;
@@ -155,7 +187,7 @@ const SortDropdown: React.FC<Props> = ({ results, userLocation, active, onApplyS
 
   return (
     <div className="sort-dropdown" ref={ref}>
-      {/* Button now displays current selection (or Default) similar to the View button */}
+      {/* Button now displays current selection (or Default) */}
       <button
         className="sort-toggle"
         onClick={() => setOpen((s) => !s)}
@@ -206,7 +238,6 @@ const SortDropdown: React.FC<Props> = ({ results, userLocation, active, onApplyS
             <span>Random</span>
           </li>
         </ul>
-
       )}
     </div>
   );

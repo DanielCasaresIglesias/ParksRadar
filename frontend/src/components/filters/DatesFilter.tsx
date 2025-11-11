@@ -88,7 +88,7 @@ const DatesFilter: React.FC<DatesFilterProps> = ({
             <input
               type="date"
               value={tempStart}
-              onChange={e => handleDateChange('start', e.target.value)}
+              onChange={(e) => handleDateChange('start', e.target.value)}
             />
           </div>
           <div className="end-date">
@@ -96,7 +96,7 @@ const DatesFilter: React.FC<DatesFilterProps> = ({
             <input
               type="date"
               value={tempEnd}
-              onChange={e => handleDateChange('end', e.target.value)}
+              onChange={(e) => handleDateChange('end', e.target.value)}
               min={tempStart || undefined}
             />
           </div>

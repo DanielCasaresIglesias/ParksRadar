@@ -26,15 +26,17 @@ const ChecklistFilter: React.FC<ChecklistFilterProps> = ({
   initialSelected,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFilters, setSelectedFilters] = useState<string[]>(initialSelected);
-  const [appliedFilters, setAppliedFilters] = useState<string[]>(initialSelected);
+  const [selectedFilters, setSelectedFilters] =
+    useState<string[]>(initialSelected);
+  const [appliedFilters, setAppliedFilters] =
+    useState<string[]>(initialSelected);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useOutsideAlerter(wrapperRef, () => setIsOpen(false));
 
   const handleCheckboxChange = (opt: string) => {
-    setSelectedFilters(prev =>
-      prev.includes(opt) ? prev.filter(x => x !== opt) : [...prev, opt]
+    setSelectedFilters((prev) =>
+      prev.includes(opt) ? prev.filter((x) => x !== opt) : [...prev, opt]
     );
   };
 
@@ -56,7 +58,7 @@ const ChecklistFilter: React.FC<ChecklistFilterProps> = ({
   return (
     <div className="filter checklist-filter" ref={wrapperRef}>
       <FilterButton
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={() => setIsOpen((prev) => !prev)}
         variant={isActive ? 'selected' : 'primary'}
         iconSrc={isActive ? selectedIconSrc : iconSrc}
         iconAlt={iconAlt}
@@ -66,7 +68,7 @@ const ChecklistFilter: React.FC<ChecklistFilterProps> = ({
         <div className="checklist-filter-popup">
           <p className="title">{label}</p>
           <div className="options">
-            {options.map(opt => (
+            {options.map((opt) => (
               <label key={opt} className="option">
                 <input
                   type="checkbox"

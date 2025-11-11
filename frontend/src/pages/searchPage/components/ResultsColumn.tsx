@@ -4,7 +4,10 @@ import ResultsSearch from './ResultsSearch';
 import '../styles/resultsColumn.css';
 import { type Park } from '../../../types/park';
 import ParkResult from './ParkResult';
-import SortDropdown, { type SortField, type SortDirection } from './SortDropdown';
+import SortDropdown, {
+  type SortField,
+  type SortDirection,
+} from './SortDropdown';
 import ViewDropdown, { type ViewMode } from './ViewDropdown';
 
 type ResultsColumnProps = {
@@ -24,7 +27,10 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
   loading = false,
 }) => {
   // local sort state
-  const [activeSort, setActiveSort] = useState<{ field: SortField | null; dir: SortDirection | null }>({
+  const [activeSort, setActiveSort] = useState<{
+    field: SortField | null;
+    dir: SortDirection | null;
+  }>({
     field: null,
     dir: null,
   });
@@ -32,24 +38,32 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
   // maintain the sorted list; default is original order
   const [sortedResults, setSortedResults] = useState<Park[]>(results);
   // search query state
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
   // view mode state: detailed is default
   const [viewMode, setViewMode] = useState<ViewMode>('detailed');
 
-  // if results prop changes (new search), reset sortedResults to match incoming results
+  // if results prop changes (new search), reset sortedResults to match
+  // incoming results
   React.useEffect(() => {
     setSortedResults(results);
     setActiveSort({ field: null, dir: null });
   }, [results]);
 
-  const handleApplySort = (field: SortField, dir: SortDirection | null, sorted: Park[]) => {
+  const handleApplySort = (
+    field: SortField,
+    dir: SortDirection | null,
+    sorted: Park[]
+  ) => {
     setActiveSort({ field, dir });
     setSortedResults(sorted);
   };
 
   // helper to strip accents and lowercase
   const normalize = (str: string) =>
-    str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
 
   // Filter by search query
   const filteredResults = sortedResults.filter((park) =>
@@ -91,8 +105,6 @@ const ResultsColumn: React.FC<ResultsColumnProps> = ({
           <div className="no-results">No results found.</div>
         )}
       </div>
-
-
     </div>
   );
 };

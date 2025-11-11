@@ -10,7 +10,8 @@ export interface Coordinates {
 }
 
 export function geocodeAddress(address: string): Coordinates {
-  // TODO: Replace with real geocoding lookup. 
+  console.log(`Geocoding address: ${address}`);
+  // TODO: Replace with real geocoding lookup.
   // For now, always return San Francisco’s coords:
   return { latitude: 37.7749, longitude: -122.4194 };
 }

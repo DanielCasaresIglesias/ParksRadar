@@ -6,7 +6,9 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader?.startsWith('Bearer ')) {
-    res.status(401).json({ message: 'Missing or invalid Authorization header' });
+    res
+      .status(401)
+      .json({ message: 'Missing or invalid Authorization header' });
     return;
   }
 
@@ -16,7 +18,7 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as any;
     (req as any).userId = payload.id;
     next();
-  } catch (err) {
+  } catch {
     res.status(401).json({ message: 'Invalid or expired token' });
   }
 };

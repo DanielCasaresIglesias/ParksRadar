@@ -7,9 +7,10 @@ import { ParksFilterParams } from '../types/parkFilters';
  * Removed date & weather filters. Removed petPolicy.
  * Includes many-to-many fields as arrays.
  */
-export function buildParksFilterQuery(
-  params: ParksFilterParams
-): { text: string; values: any[] } {
+export function buildParksFilterQuery(params: ParksFilterParams): {
+  text: string;
+  values: any[];
+} {
   const conditions: string[] = [];
   const values: any[] = [];
   let idx = 1;
@@ -112,11 +113,12 @@ export function buildParksFilterQuery(
 
   // ENTRY FEE
   if (
-    (params.entryFeeMin != null && params.entryFeeMax != null) &&
-    (params.groupSize    != null &&
-     params.numCars      != null &&
-     params.numMotorcycles != null &&
-     params.includeShuttle != null)
+    params.entryFeeMin != null &&
+    params.entryFeeMax != null &&
+    params.groupSize != null &&
+    params.numCars != null &&
+    params.numMotorcycles != null &&
+    params.includeShuttle != null
   ) {
     // compute total_cost = groupSize * park_entry_fee
     //                    + (numCars + numMotorcycles) * park_parking_fee

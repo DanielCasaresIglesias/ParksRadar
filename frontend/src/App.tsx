@@ -9,7 +9,6 @@ import type { User } from './types/user';
 import type { LoginData } from './types/loginData';
 import './styles/globalStyles.css';
 
-
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>({
     username: 'JohnDoe',

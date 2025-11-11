@@ -17,7 +17,10 @@ const ProfileOverlay: React.FC<ProfileOverlayProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (overlayRef.current && !overlayRef.current.contains(e.target as Node)) {
+      if (
+        overlayRef.current &&
+        !overlayRef.current.contains(e.target as Node)
+      ) {
         onClose();
       }
     };

@@ -20,7 +20,6 @@ const SearchPage: React.FC = () => {
   const [resultsMinimized, setResultsMinimized] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
   // Map ref to store Leaflet instance
   const mapRef = useRef<any>(null);
 
@@ -91,7 +90,9 @@ const SearchPage: React.FC = () => {
     }
 
     if (params.has('accessibility')) {
-      newFilters.accessibility = (params.get('accessibility') as string).split(',');
+      newFilters.accessibility = (params.get('accessibility') as string).split(
+        ','
+      );
     }
 
     const permitsObj: Record<string, string | null> = {};
@@ -177,10 +178,16 @@ const SearchPage: React.FC = () => {
       qs.append('ratingMin', newFilters.ratingMin.toString());
     }
 
-    if (newFilters.entryFeeMin !== undefined && newFilters.entryFeeMin !== null) {
+    if (
+      newFilters.entryFeeMin !== undefined &&
+      newFilters.entryFeeMin !== null
+    ) {
       qs.append('entryFeeMin', newFilters.entryFeeMin.toString());
     }
-    if (newFilters.entryFeeMax !== undefined && newFilters.entryFeeMax !== null) {
+    if (
+      newFilters.entryFeeMax !== undefined &&
+      newFilters.entryFeeMax !== null
+    ) {
       qs.append('entryFeeMax', newFilters.entryFeeMax.toString());
     }
 
@@ -211,11 +218,13 @@ const SearchPage: React.FC = () => {
       });
     }
 
-
     if (newFilters.distanceAddress) {
       qs.append('distanceAddress', newFilters.distanceAddress);
     }
-    if (newFilters.distanceMiles !== undefined && newFilters.distanceMiles !== null) {
+    if (
+      newFilters.distanceMiles !== undefined &&
+      newFilters.distanceMiles !== null
+    ) {
       qs.append('distanceMiles', newFilters.distanceMiles.toString());
     }
 
@@ -226,10 +235,7 @@ const SearchPage: React.FC = () => {
       qs.append('openEndDate', newFilters.openEndDate);
     }
 
-    if (
-      newFilters.weatherConditions &&
-      newFilters.weatherConditions.length
-    ) {
+    if (newFilters.weatherConditions && newFilters.weatherConditions.length) {
       qs.append('weatherConditions', newFilters.weatherConditions.join(','));
     }
 
@@ -292,7 +298,9 @@ const SearchPage: React.FC = () => {
         />
       </div>
       <div className="content">
-        <div className={`search-results ${resultsMinimized ? 'minimized' : ''}`}>
+        <div
+          className={`search-results ${resultsMinimized ? 'minimized' : ''}`}
+        >
           <div className="results-content">
             <ResultsColumn
               results={parks}
@@ -306,10 +314,7 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
         {showPopup && selectedPark && (
-          <ParkPopup
-            park={selectedPark}
-            onClose={() => setShowPopup(false)}
-          />
+          <ParkPopup park={selectedPark} onClose={() => setShowPopup(false)} />
         )}
         <MapContainer ref={mapRef} />
       </div>

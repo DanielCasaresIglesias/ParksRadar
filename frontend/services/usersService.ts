@@ -18,7 +18,7 @@ export async function fetchProfile() {
 export async function updateProfile(payload: ProfileUpdatePayload) {
   const res = await authFetch(`${API_URL}/users/me`, {
     method: 'PUT',
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error('Failed to update profile');
   return res.json();
@@ -31,12 +31,16 @@ export async function fetchSavedParks() {
   return res.json();
 }
 export async function savePark(parkId: number) {
-  const res = await authFetch(`${API_URL}/users/saved/${parkId}`, { method: 'POST' });
+  const res = await authFetch(`${API_URL}/users/saved/${parkId}`, {
+    method: 'POST',
+  });
   if (!res.ok) throw new Error('Failed to save park');
   return res.json();
 }
 export async function unsavePark(parkId: number) {
-  const res = await authFetch(`${API_URL}/users/saved/${parkId}`, { method: 'DELETE' });
+  const res = await authFetch(`${API_URL}/users/saved/${parkId}`, {
+    method: 'DELETE',
+  });
   if (!res.ok) throw new Error('Failed to unsave park');
   return res.json();
 }
@@ -55,13 +59,15 @@ export async function fetchTrips() {
 export async function createTrip(payload: TripPayload) {
   const res = await authFetch(`${API_URL}/users/trips`, {
     method: 'POST',
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error('Failed to create trip');
   return res.json();
 }
 export async function deleteTrip(tripId: number) {
-  const res = await authFetch(`${API_URL}/users/trips/${tripId}`, { method: 'DELETE' });
+  const res = await authFetch(`${API_URL}/users/trips/${tripId}`, {
+    method: 'DELETE',
+  });
   if (!res.ok) throw new Error('Failed to delete trip');
   return res.json();
 }

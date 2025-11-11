@@ -23,9 +23,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
       className={`filter-button ${variant}`}
       onClick={onClick}
     >
-      {iconSrc && (
-        <img src={iconSrc} alt={iconAlt} className="button-icon" />
-      )}
+      {iconSrc && <img src={iconSrc} alt={iconAlt} className="button-icon" />}
       <span className="button-text">{label}</span>
     </button>
   );

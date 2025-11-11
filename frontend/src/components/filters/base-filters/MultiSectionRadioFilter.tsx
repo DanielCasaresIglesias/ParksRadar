@@ -18,7 +18,9 @@ type MultiSectionRadioButtonFilterProps = {
 
 const sectionKey = (label: string) => label.toLowerCase().replace(/\s+/g, '_');
 
-const MultiSectionRadioButtonFilter: React.FC<MultiSectionRadioButtonFilterProps> = ({
+const MultiSectionRadioButtonFilter: React.FC<
+  MultiSectionRadioButtonFilterProps
+> = ({
   label,
   iconSrc,
   selectedIconSrc,
@@ -28,18 +30,19 @@ const MultiSectionRadioButtonFilter: React.FC<MultiSectionRadioButtonFilterProps
   initialSelected,
 }) => {
   // One piece of state per section
-  const [tempSelected, setTempSelected] = useState<Record<string, string | null>>(
-    () => {
-      // ensure every section has an entry
-      const init: Record<string, string | null> = {};
-      options.forEach(([sectionTitle]) => {
-        const key = sectionKey(sectionTitle);
-        init[key] = initialSelected[key] ?? null;
-      });
-      return init;
-    }
-  );
-  const [appliedSelected, setAppliedSelected] = useState<Record<string, string | null>>(tempSelected);
+  const [tempSelected, setTempSelected] = useState<
+    Record<string, string | null>
+  >(() => {
+    // ensure every section has an entry
+    const init: Record<string, string | null> = {};
+    options.forEach(([sectionTitle]) => {
+      const key = sectionKey(sectionTitle);
+      init[key] = initialSelected[key] ?? null;
+    });
+    return init;
+  });
+  const [appliedSelected, setAppliedSelected] =
+    useState<Record<string, string | null>>(tempSelected);
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -50,13 +53,13 @@ const MultiSectionRadioButtonFilter: React.FC<MultiSectionRadioButtonFilterProps
       // reset temp to last applied
       setTempSelected(appliedSelected);
     }
-    setIsOpen(open => !open);
+    setIsOpen((open) => !open);
   };
 
   const handleSectionChange = (sectionKeyStr: string, option: string) => {
-    setTempSelected(prev => ({
+    setTempSelected((prev) => ({
       ...prev,
-      [sectionKeyStr]: option
+      [sectionKeyStr]: option,
     }));
   };
 
@@ -78,7 +81,7 @@ const MultiSectionRadioButtonFilter: React.FC<MultiSectionRadioButtonFilterProps
   };
 
   // active if any section has a non-null selection
-  const isActive = Object.values(appliedSelected).some(v => v !== null);
+  const isActive = Object.values(appliedSelected).some((v) => v !== null);
 
   return (
     <div className="filter multi-section-radiolist-filter" ref={wrapperRef}>
@@ -98,11 +101,11 @@ const MultiSectionRadioButtonFilter: React.FC<MultiSectionRadioButtonFilterProps
               return (
                 <div className="section" key={key}>
                   <p className="section-title">{sectionTitle}</p>
-                  {sectionOptions.map(opt => (
+                  {sectionOptions.map((opt) => (
                     <label key={opt} className="option">
                       <input
                         type="radio"
-                        name={key}  // group per section
+                        name={key} // group per section
                         checked={tempSelected[key] === opt}
                         onChange={() => handleSectionChange(key, opt)}
                       />

@@ -20,19 +20,18 @@ const StateRegionFilter: React.FC<StateRegionFilterProps> = ({
   initialRegions,
 }) => {
   // Build groups: one per state/territory, children = that region list
-  const groups: GroupOptions[] = stateTourismRegions.map(({ state, regions }) => ({
-    label: state,
-    options: regions,
-  }));
+  const groups: GroupOptions[] = stateTourismRegions.map(
+    ({ state, regions }) => ({
+      label: state,
+      options: regions,
+    })
+  );
 
   // initialSelected for the expanded checklist = states + regions
-  const initialSelected = [
-    ...initialStates,
-    ...initialRegions,
-  ];
+  const initialSelected = [...initialStates, ...initialRegions];
 
   // Extract list of all state labels to distinguish parents vs. children
-  const allStates = stateTourismRegions.map(s => s.state);
+  const allStates = stateTourismRegions.map((s) => s.state);
 
   return (
     <ChecklistExpandedListFilter
@@ -42,10 +41,10 @@ const StateRegionFilter: React.FC<StateRegionFilterProps> = ({
       iconAlt="State & Region Icon"
       groups={groups}
       initialSelected={initialSelected}
-      onChange={selected => {
+      onChange={(selected) => {
         // split flat selection into states vs. regions
-        const states   = selected.filter(s => allStates.includes(s));
-        const regions  = selected.filter(r => !allStates.includes(r));
+        const states = selected.filter((s) => allStates.includes(s));
+        const regions = selected.filter((r) => !allStates.includes(r));
         onChange(states, regions);
       }}
     />

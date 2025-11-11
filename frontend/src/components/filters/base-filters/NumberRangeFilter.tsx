@@ -27,7 +27,10 @@ const NumberRangeFilter: React.FC<NumberRangeFilterProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [minValue, setMinValue] = useState<string>(initialMin.toFixed(2));
   const [maxValue, setMaxValue] = useState<string>(initialMax.toFixed(2));
-  const [appliedRange, setAppliedRange] = useState<{ min: number; max: number }>({ min: initialMin, max: initialMax });
+  const [appliedRange, setAppliedRange] = useState<{
+    min: number;
+    max: number;
+  }>({ min: initialMin, max: initialMax });
   const [error, setError] = useState<string>('');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +67,7 @@ const NumberRangeFilter: React.FC<NumberRangeFilterProps> = ({
   return (
     <div className="filter number-range-filter" ref={wrapperRef}>
       <FilterButton
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={() => setIsOpen((prev) => !prev)}
         variant={isActive ? 'selected' : 'primary'}
         iconSrc={isActive ? selectedIconSrc : iconSrc}
         iconAlt={iconAlt}
@@ -78,7 +81,7 @@ const NumberRangeFilter: React.FC<NumberRangeFilterProps> = ({
               type="number"
               step="0.01"
               value={minValue}
-              onChange={e => setMinValue(e.target.value)}
+              onChange={(e) => setMinValue(e.target.value)}
               placeholder="Min"
             />
             <span className="separator">-</span>
@@ -86,7 +89,7 @@ const NumberRangeFilter: React.FC<NumberRangeFilterProps> = ({
               type="number"
               step="0.01"
               value={maxValue}
-              onChange={e => setMaxValue(e.target.value)}
+              onChange={(e) => setMaxValue(e.target.value)}
               placeholder="Max"
             />
           </div>

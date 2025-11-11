@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../styles/loginOverlay.css';
 import type { LoginData } from '../../../types/loginData';
 
-
 export interface LoginOverlayProps {
   onClose: () => void;
   onLogin: (data: LoginData) => void;
@@ -25,7 +24,10 @@ const LoginOverlay: React.FC<LoginOverlayProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (overlayRef.current && !overlayRef.current.contains(e.target as Node)) {
+      if (
+        overlayRef.current &&
+        !overlayRef.current.contains(e.target as Node)
+      ) {
         onClose();
       }
     };
@@ -35,7 +37,7 @@ const LoginOverlay: React.FC<LoginOverlayProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));

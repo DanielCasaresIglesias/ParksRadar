@@ -3,15 +3,26 @@
 import { Request, Response, NextFunction } from 'express';
 import pool from '../db';
 
-export async function getReviewsByPark(req: Request, res: Response, next: NextFunction) {
+export async function getReviewsByPark(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const parkId = parseInt(req.params.parkId, 10);
     const { rows } = await pool.query(
-      `SELECT r.review_id, r.review_rating AS rating, r.review_contents AS review_text, r.review_posting_date AS created_at, u.user_name AS author
-       FROM reviews r
-       JOIN users u ON r.user_id = u.user_id
-       WHERE r.park_id = $1
-       ORDER BY r.review_posting_date DESC`,
+      `
+      SELECT
+        r.review_id,
+        r.review_rating AS rating,
+        r.review_contents AS review_text,
+        r.review_posting_date AS created_at,
+        u.user_name AS author
+      FROM reviews r
+      JOIN users u ON r.user_id = u.user_id
+      WHERE r.park_id = $1
+      ORDER BY r.review_posting_date DESC
+      `,
       [parkId]
     );
     res.json(rows);
@@ -20,7 +31,11 @@ export async function getReviewsByPark(req: Request, res: Response, next: NextFu
   }
 }
 
-export async function createReview(req: Request, res: Response, next: NextFunction) {
+export async function createReview(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { park_id, rating, review_text } = req.body;
@@ -43,7 +58,11 @@ export async function createReview(req: Request, res: Response, next: NextFuncti
   }
 }
 
-export async function updateReview(req: Request, res: Response, next: NextFunction) {
+export async function updateReview(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const reviewId = parseInt(req.params.id, 10);
     const userId = (req as any).userId;
@@ -77,7 +96,11 @@ export async function updateReview(req: Request, res: Response, next: NextFuncti
   }
 }
 
-export async function deleteReview(req: Request, res: Response, next: NextFunction) {
+export async function deleteReview(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const reviewId = parseInt(req.params.id, 10);
     const userId = (req as any).userId;

@@ -1,9 +1,8 @@
 // ReviewForm.tsx
-import React, { useState, type ChangeEvent } from "react";
-import ReactDOM from "react-dom";
-import "./styles/reviewForm.css";
-import type { Park } from "../types/park";
-
+import React, { useState, type ChangeEvent } from 'react';
+import ReactDOM from 'react-dom';
+import './styles/reviewForm.css';
+import type { Park } from '../types/park';
 
 interface ReviewFormProps {
   park: Park;
@@ -16,18 +15,22 @@ interface ReviewFormData {
   review: string;
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ park, activities, onClose }) => {
+const ReviewForm: React.FC<ReviewFormProps> = ({
+  park,
+  activities,
+  onClose,
+}) => {
   // Star rating state (minimum rating is 1)
   const [rating, setRating] = useState<number>(1);
   // Date states
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
   // Activities search state
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>('');
   // Form data for review and activities
   const [formData, setFormData] = useState<ReviewFormData>({
     activities: [],
-    review: "",
+    review: '',
   });
 
   // Handle toggling checkboxes for activities
@@ -54,14 +57,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ park, activities, onClose }) =>
     setRating(star);
   };
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split('T')[0];
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    if (name === "startDate") {
+    if (name === 'startDate') {
       setStartDate(value);
-      if (endDate && endDate < value) setEndDate("");
-    } else if (name === "endDate") {
+      if (endDate && endDate < value) setEndDate('');
+    } else if (name === 'endDate') {
       setEndDate(value);
     }
   };
@@ -87,7 +90,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ park, activities, onClose }) =>
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
-                  className={`star ${star <= rating ? "yellow" : "gray"}`}
+                  className={`star ${star <= rating ? 'yellow' : 'gray'}`}
                   onClick={() => handleStarClick(star)}
                 >
                   ★
@@ -176,7 +179,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ park, activities, onClose }) =>
         </div>
       </div>
     </div>,
-    document.getElementById("modal-root")!
+    document.getElementById('modal-root')!
   );
 };
 

@@ -77,7 +77,8 @@ const DistanceFilter: React.FC<DistanceFilterProps> = ({
     setIsOpen(false);
   };
 
-  // The filter is considered active if either address or miles have been applied.
+  // The filter is considered active if either address or miles have been
+  // applied.
   const isFilterActive = appliedAddress !== '' || appliedMiles !== '';
 
   return (

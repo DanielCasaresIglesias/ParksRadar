@@ -11,17 +11,21 @@ type ParkResultProps = {
 };
 
 const levelMap: Record<Park['park_level'], string> = {
-  'Federal': 'National',
-  'State': 'State',
-  'Regional': 'Regional',
-  'County': 'County',
+  Federal: 'National',
+  State: 'State',
+  Regional: 'Regional',
+  County: 'County',
   'City/Municipal': 'City',
-  'Tribal': 'Tribal',
+  Tribal: 'Tribal',
   'Private with Public Access': 'Private',
   'Uknown/Other': 'Other',
 };
 
-const ParkResult: React.FC<ParkResultProps> = ({ park, onSelect, view = 'detailed' }) => {
+const ParkResult: React.FC<ParkResultProps> = ({
+  park,
+  onSelect,
+  view = 'detailed',
+}) => {
   // ref for measuring container width
   const topRowRef = useRef<HTMLDivElement>(null);
   const [maxWidthPx, setMaxWidthPx] = useState(0);

@@ -23,29 +23,33 @@ interface FilterBarProps {
   initialFilters: Filters;
 }
 
-const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }) => {
+const FilterBar: React.FC<FilterBarProps> = ({
+  onFiltersChange,
+  initialFilters,
+}) => {
   const [showMore, setShowMore] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Close the expanded filters panel whenever you click outside of the entire bar
+  // Close the expanded filters panel whenever you click outside of the bar
   useOutsideAlerter(wrapperRef, () => setShowMore(false));
 
-  // ─── Only initialize from initialFilters once ──────────────────────────────────
+  // Only initialize from initialFilters once
   const [filters, setFilters] = useState<Filters>(initialFilters);
 
-  // ─── Notify parent whenever filters change ─────────────────────────────────────
+  // Notify parent whenever filters change
   useEffect(() => {
     onFiltersChange(filters);
   }, [filters]);
 
-  // ─── Helper to update one field in our filters object ─────────────────────────
-  const updateField = <K extends keyof Filters>(field: K, value: Filters[K]) => {
-    setFilters(prev => ({ ...prev, [field]: value }));
+  // Helper to update one field in our filters object
+  const updateField = <K extends keyof Filters>(
+    field: K,
+    value: Filters[K]
+  ) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
-  //
-  // ── Define “base filters” (six of them), then we’ll slice them ─────────────────
-  //
+  // Define “base filters” (six of them), then we’ll slice them
 
   const distanceFilterNode = (
     <DistanceFilter
@@ -54,20 +58,22 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
       iconSrc="images/filter-icons/base-icons/distance-icon.png"
       selectedIconSrc="images/filter-icons/selected-icons/distance-icon.png"
       iconAlt="Distance Icon"
-      onChange={val => {
+      onChange={(val) => {
         updateField('distanceAddress', val.address || '');
         const milesNum = val.miles ? parseFloat(val.miles) : null;
         updateField('distanceMiles', milesNum);
       }}
       initialAddress={filters.distanceAddress || ''}
-      initialMiles={filters.distanceMiles != null ? filters.distanceMiles.toString() : ''}
+      initialMiles={
+        filters.distanceMiles != null ? filters.distanceMiles.toString() : ''
+      }
     />
   );
 
   const trailsFilterNode = (
     <TrailsFilter
       key="trails"
-      onChange={val => updateField('trails', val)}
+      onChange={(val) => updateField('trails', val)}
       initialSelected={filters.trails || []}
     />
   );
@@ -75,7 +81,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
   const campsFilterNode = (
     <CampsFilter
       key="camps"
-      onChange={val => updateField('camps', val)}
+      onChange={(val) => updateField('camps', val)}
       initialSelected={filters.camps || []}
     />
   );
@@ -83,7 +89,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
   const activitiesFilterNode = (
     <ActivitiesFilter
       key="activities"
-      onChange={val => updateField('activities', val)}
+      onChange={(val) => updateField('activities', val)}
       initialSelected={filters.activities || []}
     />
   );
@@ -91,7 +97,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
   const facilitiesFilterNode = (
     <FacilitiesFilter
       key="facilities"
-      onChange={val => updateField('facilities', val)}
+      onChange={(val) => updateField('facilities', val)}
       initialSelected={filters.facilities || []}
     />
   );
@@ -99,7 +105,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
   const featuresFilterNode = (
     <FeaturesFilter
       key="features"
-      onChange={val => updateField('features', val)}
+      onChange={(val) => updateField('features', val)}
       initialSelected={filters.features || []}
     />
   );
@@ -107,7 +113,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
   const ratingFilterNode = (
     <RatingFilter
       key="rating"
-      onChange={val => updateField('ratingMin', val)}
+      onChange={(val) => updateField('ratingMin', val)}
       initialSelected={filters.ratingMin ?? null}
     />
   );
@@ -123,33 +129,31 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
     ratingFilterNode,
   ];
 
-  //
-  // ─── Define “extra” filters (the ones under “More Filters”) ─────────────────────
-  //
+  // Define “extra” filters (the ones under “More Filters”)
 
   const extraFilters = [
     <StateRegionFilter
       key="stateRegion"
       initialStates={filters.parkState || []}
       initialRegions={filters.region || []}
-      onChange={ (states, regions) =>{
+      onChange={(states, regions) => {
         updateField('region', regions);
         updateField('parkState', states);
       }}
     />,
     <AccessibilityFilter
       key="accessibility"
-      onChange={val => updateField('accessibility', val)}
+      onChange={(val) => updateField('accessibility', val)}
       initialSelected={filters.accessibility || []}
     />,
     <PermitsFilter
       key="permits"
-      onChange={val => updateField('permits', val)}
+      onChange={(val) => updateField('permits', val)}
       initialSelected={filters.permits || {}}
     />,
     <PetPolicyFilter
       key="petPolicy"
-      onChange={val => updateField('petPolicy', val)}
+      onChange={(val) => updateField('petPolicy', val)}
       initialSelected={filters.petPolicy ?? null}
     />,
     <CostFilter
@@ -177,15 +181,13 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
     />,
   ];
 
-  //
-  // ─── Now compute “visibleBaseFilters” and “extraFilterRows” just like in your original code ──
-  //
-
-  // Show the first 6 of baseFilters in row 1 (we reserve one slot for “More Filters” button).
+  // Show the first 6 of baseFilters in row 1
+  // (we reserve one slot for “More Filters” button).
   const visibleBaseFilters = baseFilters.slice(0, 6);
 
-  // Anything in the 7th slot of baseFilters (i.e. ratingFilterNode) should be pushed into “extra” when showMore = true.
-  const additionalBaseFilters = baseFilters.slice(6); // this is [ratingFilterNode]
+  // Anything in the 7th slot of baseFilters
+  // (i.e. ratingFilterNode) should be pushed into “extra” when showMore = true.
+  const additionalBaseFilters = baseFilters.slice(6);
 
   // Combine “overflow” (additionalBaseFilters) with the actual extraFilters
   const extraFilterCombined = [...additionalBaseFilters, ...extraFilters];
@@ -199,13 +201,8 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
     return chunks;
   };
 
-  // Decide how many buttons to show per row. Here, you previously had a `maxButtons` logic.
-  // If you want to keep that dynamic‐width behavior, you can reintroduce the same useEffect to set maxButtons.
-  //
-  // For simplicity, let's hardcode “6 per row” when expanded:
   const maxButtons = 7;
 
-  // “extraFilterRows” will be an array of arrays, each subarray having up to `maxButtons` filters
   const extraFilterRows = chunkArray(extraFilterCombined, maxButtons);
 
   return (
@@ -218,7 +215,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
 
         {/* “More Filters” button always lives in row 1 */}
         <FilterButton
-          onClick={() => setShowMore(prev => !prev)}
+          onClick={() => setShowMore((prev) => !prev)}
           label={showMore ? 'Show Less' : 'Show More'}
           variant="primary"
           iconSrc="images/filter-icons/base-icons/more-filters-icon.png"
@@ -226,7 +223,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFiltersChange, initialFilters }
         />
       </div>
 
-      {/* ─────────── Expanded Filters Section (only if showMore=true) ─────────── */}
+      {/* Expanded Filters Section (only if showMore=true) */}
       {showMore && (
         <div className="expanded-filters visible">
           {extraFilterRows.map((row, rowIndex) => (

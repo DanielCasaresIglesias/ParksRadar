@@ -14,7 +14,7 @@ type ParkingFilterProps = {
 
 /**
  * Renders a single “Parking” button, whose popup has:
- *  - A range slider (min…max) 
+ *  - A range slider (min…max)
  *  - Two numeric inputs (low/end) that stay in sync with the slider
  *  - “Apply” and “Clear”
  */
@@ -82,8 +82,7 @@ const ParkingFilter: React.FC<ParkingFilterProps> = ({
     setIsOpen(false);
   };
 
-  const isActive =
-    appliedMin !== ABSOLUTE_MIN || appliedMax !== ABSOLUTE_MAX;
+  const isActive = appliedMin !== ABSOLUTE_MIN || appliedMax !== ABSOLUTE_MAX;
 
   return (
     <div className="filter parking-filter" ref={wrapperRef}>

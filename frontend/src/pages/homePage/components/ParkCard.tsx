@@ -25,7 +25,8 @@ const ParkCard: React.FC<ParkCardProps> = ({
         <div className="park-info">
           <span className="park-type">{parkType}</span>
           <span className="review">
-            <span className="star">★</span> {rating !== undefined ? rating.toFixed(1) : 'N/A'}
+            <span className="star">★</span>{' '}
+            {rating !== undefined ? rating.toFixed(1) : 'N/A'}
           </span>
         </div>
       </div>

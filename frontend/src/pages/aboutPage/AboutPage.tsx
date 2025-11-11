@@ -7,7 +7,8 @@ const AboutPage: React.FC = () => (
     <h1>About Park Radar</h1>
     <p>
       Park Radar is a web application that helps you find parks across the U.S.
-      We fetch data from our PostgreSQL/PostGIS backend and display them on a map.
+      We fetch data from our PostgreSQL/PostGIS backend and display them on a
+      map.
     </p>
     <h2>Data Sources</h2>
     <ul>

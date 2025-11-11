@@ -8,10 +8,22 @@ type PermitsFilterProps = {
 };
 
 const PERMIT_SECTIONS: [string, string[]][] = [
-  ['Drone',       ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required']],
-  ['Fishing',     ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required']],
-  ['Hunting',     ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required']],
-  ['Backcountry', ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required']],
+  [
+    'Drone',
+    ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required'],
+  ],
+  [
+    'Fishing',
+    ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required'],
+  ],
+  [
+    'Hunting',
+    ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required'],
+  ],
+  [
+    'Backcountry',
+    ['Permit Required', 'Not Allowed', 'Seasonal', 'No Permit Required'],
+  ],
 ];
 
 const PermitsFilter: React.FC<PermitsFilterProps> = ({

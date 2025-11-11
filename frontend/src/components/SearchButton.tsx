@@ -14,7 +14,11 @@ const SearchButton: React.FC<SearchButtonProps> = ({
   variant = 'primary',
 }) => {
   return (
-    <button type={type} className={`search-button ${variant}`} onClick={onClick}>
+    <button
+      type={type}
+      className={`search-button ${variant}`}
+      onClick={onClick}
+    >
       Search
     </button>
   );

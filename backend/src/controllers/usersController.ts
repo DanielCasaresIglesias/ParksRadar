@@ -3,11 +3,15 @@
 import { Request, Response, NextFunction } from 'express';
 import pool from '../db';
 import bcrypt from 'bcrypt';
-import cloudinary from '../services/cloudinaryService';
-import fs from 'fs';
+// import cloudinary from '../services/cloudinaryService';
+// import fs from 'fs';
 
 // 1) getProfile
-export async function getProfile(req: Request, res: Response, next: NextFunction) {
+export async function getProfile(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { rows } = await pool.query(
@@ -27,19 +31,15 @@ export async function getProfile(req: Request, res: Response, next: NextFunction
 }
 
 // 2) updateProfile
-export async function updateProfile(req: Request, res: Response, next: NextFunction) {
+export async function updateProfile(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { username, email, password } = req.body;
     let profile_pic_url = req.body.profile_pic_url as string | undefined;
-
-    // If multer handled a file:
-    // if ((req as any).file) {
-    //   const tempPath = (req as any).file.path;
-    //   const uploadRes = await cloudinary.uploader.upload(tempPath, { folder: 'profiles' });
-    //   fs.unlinkSync(tempPath);
-    //   profile_pic_url = uploadRes.secure_url;
-    // }
 
     // Hash new password if provided
     let password_hash: string | null = null;
@@ -78,7 +78,12 @@ export async function updateProfile(req: Request, res: Response, next: NextFunct
       return;
     }
 
-    const query = `UPDATE users SET ${fields.join(', ')} WHERE id=$${idx} RETURNING id, username, email, profile_pic_url`;
+    const query = `
+      UPDATE users
+      SET ${fields.join(', ')}
+      WHERE id=$${idx}
+      RETURNING id, username, email, profile_pic_url
+    `;
     values.push(userId);
 
     const { rows } = await pool.query(query, values);
@@ -89,7 +94,11 @@ export async function updateProfile(req: Request, res: Response, next: NextFunct
 }
 
 // 3) getSavedParks
-export async function getSavedParks(req: Request, res: Response, next: NextFunction) {
+export async function getSavedParks(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { rows } = await pool.query(
@@ -105,7 +114,11 @@ export async function getSavedParks(req: Request, res: Response, next: NextFunct
 }
 
 // 4) savePark
-export async function savePark(req: Request, res: Response, next: NextFunction) {
+export async function savePark(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const parkId = parseInt(req.params.parkId, 10);
@@ -122,7 +135,11 @@ export async function savePark(req: Request, res: Response, next: NextFunction) 
 }
 
 // 5) unsavePark
-export async function unsavePark(req: Request, res: Response, next: NextFunction) {
+export async function unsavePark(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const parkId = parseInt(req.params.parkId, 10);
@@ -137,15 +154,24 @@ export async function unsavePark(req: Request, res: Response, next: NextFunction
 }
 
 // 6) getTrips
-export async function getTrips(req: Request, res: Response, next: NextFunction) {
+export async function getTrips(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { rows } = await pool.query(
-      `SELECT t.*, p.park_name AS park_name, p.park_state AS park_state, p.park_region AS park_region
-       FROM trips t
-       JOIN parks p ON t.park_id = p.park_id
-       WHERE t.user_id = $1
-       ORDER BY t.trip_date DESC`,
+      `
+      SELECT
+        t.*,
+        p.park_name AS park_name,
+        p.park_state AS park_state,
+        p.park_region AS park_region
+      FROM trips t
+      JOIN parks p ON t.park_id = p.park_id
+      WHERE t.user_id = $1
+      ORDER BY t.trip_date DESC`,
       [userId]
     );
     res.json(rows);
@@ -155,7 +181,11 @@ export async function getTrips(req: Request, res: Response, next: NextFunction) 
 }
 
 // 7) createTrip
-export async function createTrip(req: Request, res: Response, next: NextFunction) {
+export async function createTrip(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { park_id, trip_date, notes } = req.body;
@@ -178,12 +208,19 @@ export async function createTrip(req: Request, res: Response, next: NextFunction
 }
 
 // 8) deleteTrip
-export async function deleteTrip(req: Request, res: Response, next: NextFunction) {
+export async function deleteTrip(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const tripId = parseInt(req.params.id, 10);
 
-    const { rows: checkRows } = await pool.query('SELECT user_id FROM trips WHERE id=$1', [tripId]);
+    const { rows: checkRows } = await pool.query(
+      'SELECT user_id FROM trips WHERE id=$1',
+      [tripId]
+    );
     if (!checkRows.length) {
       res.status(404).json({ message: 'Trip not found' });
       return;

@@ -31,7 +31,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
     const newUser = rows[0];
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      // If JWT_SECRET isn’t set, throw an error so it goes to your error handler
+      // If JWT_SECRET not set, throw an error so it goes to your error handler
       throw new Error('Missing JWT_SECRET in environment');
     }
     const token = jwt.sign({ id: newUser.id }, secret, { expiresIn: '7d' });
@@ -41,9 +41,9 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
         id: newUser.id,
         username: newUser.username,
         email: newUser.email,
-        profile_pic_url: newUser.profile_pic_url
+        profile_pic_url: newUser.profile_pic_url,
       },
-      token
+      token,
     });
   } catch (err: any) {
     // Unique violation: duplicate email or username
@@ -63,7 +63,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       return;
     }
 
-    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [
+      email,
+    ]);
     if (!rows.length) {
       res.status(401).json({ message: 'Invalid credentials' });
       return;
@@ -87,16 +89,20 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         id: user.id,
         username: user.username,
         email: user.email,
-        profile_pic_url: user.profile_pic_url
+        profile_pic_url: user.profile_pic_url,
       },
-      token
+      token,
     });
   } catch (err) {
     next(err);
   }
 }
 
-export async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
+export async function getCurrentUser(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const userId = (req as any).userId;
     const { rows } = await pool.query(

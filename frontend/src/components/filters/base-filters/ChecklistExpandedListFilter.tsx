@@ -21,7 +21,9 @@ type ChecklistExpandedListFilterProps = {
   initialSelected: string[];
 };
 
-const ChecklistExpandedListFilter: React.FC<ChecklistExpandedListFilterProps> = ({
+const ChecklistExpandedListFilter: React.FC<
+  ChecklistExpandedListFilterProps
+> = ({
   label,
   iconSrc,
   selectedIconSrc,
@@ -32,25 +34,29 @@ const ChecklistExpandedListFilter: React.FC<ChecklistExpandedListFilterProps> = 
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(groups.map(g => [g.label, false]))
+    () => Object.fromEntries(groups.map((g) => [g.label, false]))
   );
-  const [selected, setSelected] = useState<Set<string>>(new Set(initialSelected));
-  const [applied, setApplied]   = useState<Set<string>>(new Set(initialSelected));
+  const [selected, setSelected] = useState<Set<string>>(
+    new Set(initialSelected)
+  );
+  const [applied, setApplied] = useState<Set<string>>(new Set(initialSelected));
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // One big ref object instead of many useRefs in a loop
-  const parentCheckboxRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const parentCheckboxRefs = useRef<Record<string, HTMLInputElement | null>>(
+    {}
+  );
 
   useOutsideAlerter(wrapperRef, () => setIsOpen(false));
 
   // After every render, update checked + indeterminate on each parent checkbox
   useEffect(() => {
-    groups.forEach(group => {
+    groups.forEach((group) => {
       const ref = parentCheckboxRefs.current[group.label];
       if (!ref) return;
 
-      const total  = group.options.length;
-      const picked = group.options.filter(o => selected.has(o)).length;
+      const total = group.options.length;
+      const picked = group.options.filter((o) => selected.has(o)).length;
 
       ref.checked = picked === total;
       ref.indeterminate = picked > 0 && picked < total;
@@ -58,23 +64,32 @@ const ChecklistExpandedListFilter: React.FC<ChecklistExpandedListFilterProps> = 
   }, [selected, groups]);
 
   const toggleGroup = (label: string) => {
-    setExpandedGroups(prev => ({ ...prev, [label]: !prev[label] }));
+    setExpandedGroups((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
   const onChildToggle = (opt: string) => {
-    setSelected(prev => {
+    setSelected((prev) => {
       const next = new Set(prev);
-      next.has(opt) ? next.delete(opt) : next.add(opt);
+      if (next.has(opt)) {
+        next.delete(opt);
+      } else {
+        next.add(opt);
+      }
+
       return next;
     });
   };
 
   const onParentToggle = (group: GroupOptions) => {
-    setSelected(prev => {
+    setSelected((prev) => {
       const next = new Set(prev);
-      const allInGroup = group.options.every(o => next.has(o));
-      group.options.forEach(o => {
-        allInGroup ? next.delete(o) : next.add(o);
+      const allInGroup = group.options.every((o) => next.has(o));
+      group.options.forEach((o) => {
+        if (allInGroup) {
+          next.delete(o);
+        } else {
+          next.add(o);
+        }
       });
       return next;
     });
@@ -97,7 +112,7 @@ const ChecklistExpandedListFilter: React.FC<ChecklistExpandedListFilterProps> = 
   return (
     <div className="filter checklist-expanded-filter" ref={wrapperRef}>
       <FilterButton
-        onClick={() => setIsOpen(o => !o)}
+        onClick={() => setIsOpen((o) => !o)}
         variant={isActive ? 'selected' : 'primary'}
         iconSrc={isActive ? selectedIconSrc : iconSrc}
         iconAlt={iconAlt}
@@ -107,13 +122,15 @@ const ChecklistExpandedListFilter: React.FC<ChecklistExpandedListFilterProps> = 
         <div className="checklist-expanded-popup">
           <p className="title">{label}</p>
           <div className="groups">
-            {groups.map(group => (
+            {groups.map((group) => (
               <div className="group" key={group.label}>
                 <div className="group-header">
                   <input
                     type="checkbox"
                     // assign into our central ref object
-                    ref={el => { parentCheckboxRefs.current[group.label] = el }}
+                    ref={(el) => {
+                      parentCheckboxRefs.current[group.label] = el;
+                    }}
                     onChange={() => onParentToggle(group)}
                   />
                   <span className="group-label">{group.label}</span>
@@ -127,7 +144,7 @@ const ChecklistExpandedListFilter: React.FC<ChecklistExpandedListFilterProps> = 
                 </div>
                 {expandedGroups[group.label] && (
                   <div className="group-options">
-                    {group.options.map(opt => (
+                    {group.options.map((opt) => (
                       <label key={opt} className="option">
                         <input
                           type="checkbox"

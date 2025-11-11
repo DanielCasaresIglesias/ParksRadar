@@ -20,14 +20,13 @@ export interface Filters {
   parkingFeeMax?: number | null;
 
   petPolicy?: string | null;
-  accessibility?: string[];   // ["Wheelchair","Hearing"]
+  accessibility?: string[]; // ["Wheelchair","Hearing"]
   permits?: {
-  drone?: string | null;
-  fishing?: string | null;
-  hunting?: string | null;
-  backcountry?: string | null;
-};
-
+    drone?: string | null;
+    fishing?: string | null;
+    hunting?: string | null;
+    backcountry?: string | null;
+  };
 
   distanceAddress?: string;
   distanceMiles?: number | null;

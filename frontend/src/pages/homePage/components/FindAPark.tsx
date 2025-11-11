@@ -5,9 +5,9 @@ import FilterBar from '../../../components/FilterBar';
 import SearchButton from '../../../components/SearchButton';
 import '../styles/findAPark.css';
 
-interface FindAParkProps {}
+// interface FindAParkProps {}
 
-const FindAPark: React.FC<FindAParkProps> = () => {
+const FindAPark: React.FC = () => {
   const [filters, setFilters] = useState({});
   const navigate = useNavigate();
 
@@ -17,7 +17,8 @@ const FindAPark: React.FC<FindAParkProps> = () => {
 
   const handleSearch = () => {
     const queryParams = new URLSearchParams();
-    // The shape of `filters` matches FiltersType, so we can copy logic from SearchPage:
+    // The shape of `filters` matches FiltersType, so we can copy logic from
+    // SearchPage:
     Object.entries(filters).forEach(([key, val]) => {
       if (val === null || val === undefined) return;
       if (Array.isArray(val) && val.length) {
@@ -45,10 +46,7 @@ const FindAPark: React.FC<FindAParkProps> = () => {
     <div className="find-a-park">
       <h1>Find a Park</h1>
       <div className="filter-bar-wrapper">
-        <FilterBar
-          onFiltersChange={handleFiltersChange}
-          initialFilters={{}}
-        />
+        <FilterBar onFiltersChange={handleFiltersChange} initialFilters={{}} />
       </div>
       <SearchButton onClick={handleSearch} />
     </div>

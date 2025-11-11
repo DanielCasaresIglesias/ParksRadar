@@ -2,7 +2,6 @@
 import React from 'react';
 import ChecklistFilter from './base-filters/ChecklistFilter';
 
-
 type TrailsFilterProps = {
   onChange: (selected: string[]) => void;
   initialSelected: string[];
@@ -10,7 +9,7 @@ type TrailsFilterProps = {
 
 const TrailsFilter: React.FC<TrailsFilterProps> = ({
   onChange,
-  initialSelected
+  initialSelected,
 }) => {
   return (
     <ChecklistFilter
@@ -18,7 +17,12 @@ const TrailsFilter: React.FC<TrailsFilterProps> = ({
       iconSrc="images/filter-icons/base-icons/trails-icon.png"
       selectedIconSrc="images/filter-icons/selected-icons/trails-icon.png"
       iconAlt="Trails Icon"
-      options={['Hiking', 'Mountain Biking', 'Wheelchair Accessible', 'Horseback Riding']}
+      options={[
+        'Hiking',
+        'Mountain Biking',
+        'Wheelchair Accessible',
+        'Horseback Riding',
+      ]}
       onChange={onChange}
       initialSelected={initialSelected}
     />

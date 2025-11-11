@@ -11,9 +11,10 @@ type RegionFilterProps = {
 const RegionFilter: React.FC<RegionFilterProps> = ({
   onChange,
   stateSelected,
-  initialSelected
+  initialSelected,
 }) => {
-  // Master list of regions (for demonstration, includes California and a few New York regions)
+  // Master list of regions
+  // (for demonstration, includes California and a few New York regions)
   const allRegions = [
     { region: 'Central Coast', state: 'California' },
     { region: 'Central Valley', state: 'California' },
@@ -35,10 +36,13 @@ const RegionFilter: React.FC<RegionFilterProps> = ({
 
   // Normalize stateSelected to an array (if it's a string)
   const selectedStates = stateSelected
-    ? Array.isArray(stateSelected) ? stateSelected : [stateSelected]
+    ? Array.isArray(stateSelected)
+      ? stateSelected
+      : [stateSelected]
     : [];
 
-  // Filter the regions if one or more states are selected; otherwise, use the full list.
+  // Filter the regions if one or more states are selected;
+  // otherwise, use the full list.
   const filteredRegions =
     selectedStates.length > 0
       ? allRegions.filter((item) =>

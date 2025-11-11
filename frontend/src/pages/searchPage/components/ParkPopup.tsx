@@ -6,8 +6,8 @@ import '../styles/parkPopup.css';
 
 // Star SVGs
 import EmptyStar from '../../../../public/images/stars/EmptyStar.svg';
-import HalfStar  from '../../../../public/images/stars/HalfStar.svg';
-import FullStar  from '../../../../public/images/stars/FullStar.svg';
+import HalfStar from '../../../../public/images/stars/HalfStar.svg';
+import FullStar from '../../../../public/images/stars/FullStar.svg';
 
 // A fixed list of all possible trail types and camp types
 const ALL_TRAIL_TYPES = [
@@ -27,7 +27,6 @@ function slugify(name: string) {
     .replace(/[^\w-]/g, '');
 }
 
-
 const levelMap: Record<Park['park_level'], string> = {
   Federal: 'National',
   State: 'State',
@@ -45,7 +44,9 @@ type ParkPopupProps = {
 };
 
 const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'Overview' | 'Reviews' | 'More Info'>('Overview');
+  const [activeTab, setActiveTab] = useState<
+    'Overview' | 'Reviews' | 'More Info'
+  >('Overview');
   const [showReviewPopup, setShowReviewPopup] = useState(false);
 
   const handleLeaveReview = () => {
@@ -58,8 +59,8 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
 
   const activities = park.activities ?? [];
   const facilities = park.facilities ?? [];
-  const features  = park.features  ?? [];
-  const accessibility  = park.accessibility  ?? [];
+  const features = park.features ?? [];
+  const accessibility = park.accessibility ?? [];
 
   // Log arrays for debugging
   useEffect(() => {
@@ -69,18 +70,22 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
     console.log('Accessibility:', accessibility);
   }, [activities, facilities, features, accessibility]);
 
-
   // Inside the Reviews section render:
   const raw = park.park_average_rating;
-  const avgRating = typeof raw === 'number'
-    ? raw
-    : parseFloat(String(raw)) || 0;
+  const avgRating =
+    typeof raw === 'number' ? raw : parseFloat(String(raw)) || 0;
 
   return (
     <div className="park-popup">
       <div className="popup-header">
-        <img src={park.park_photo_link} alt={park.park_name} className="popup-image" />
-        <button className="popup-close" onClick={onClose}>X</button>
+        <img
+          src={park.park_photo_link}
+          alt={park.park_name}
+          className="popup-image"
+        />
+        <button className="popup-close" onClick={onClose}>
+          X
+        </button>
       </div>
       <div className="popup-park-info">
         <div className="result-content">
@@ -107,12 +112,7 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
                   if (starValue >= 1) src = FullStar;
                   else if (starValue >= 0.5) src = HalfStar;
                   return (
-                    <img
-                      key={i}
-                      src={src}
-                      className="star-icon"
-                      alt="star"
-                    />
+                    <img key={i} src={src} className="star-icon" alt="star" />
                   );
                 })}
               </div>
@@ -124,11 +124,13 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
         </div>
       </div>
       <div className="popup-tabs">
-        {['Overview', 'Reviews', 'More Info'].map(tab => (
+        {['Overview', 'Reviews', 'More Info'].map((tab) => (
           <button
             key={tab}
             className={`tab-button ${activeTab === tab ? 'selected' : ''}`}
-            onClick={() => setActiveTab(tab as 'Overview' | 'Reviews' | 'More Info')}
+            onClick={() =>
+              setActiveTab(tab as 'Overview' | 'Reviews' | 'More Info')
+            }
           >
             {tab}
           </button>
@@ -150,11 +152,13 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
             <div className="trails-section">
               <h3 className="section-title">Trails</h3>
               <div className="trail-icons">
-                {ALL_TRAIL_TYPES.map(type => {
+                {ALL_TRAIL_TYPES.map((type) => {
                   const slug = slugify(type);
                   const isActive = (park.trail_types || []).includes(type);
                   const src = `/images/park-info-icons/${isActive ? 'active' : 'inactive'}/${slug}.png`;
-                  console.log(`Trail type: ${type}, Active: ${isActive}, Src: ${src}`);
+                  console.log(
+                    `Trail type: ${type}, Active: ${isActive}, Src: ${src}`
+                  );
                   return (
                     <div
                       key={type}
@@ -170,7 +174,7 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
             <div className="camps-section">
               <h3 className="section-title">Campsites</h3>
               <div className="camp-icons">
-                {ALL_CAMP_TYPES.map(type => {
+                {ALL_CAMP_TYPES.map((type) => {
                   const slug = slugify(type);
                   const isActive = (park.camp_types || []).includes(type);
                   const src = `/images/park-info-icons/${isActive ? 'active' : 'inactive'}/${slug}.png`;
@@ -200,7 +204,9 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
               <p>Bar graph goes here</p>
             </div>
             <div className="average-review">
-              <div className="average-score">{avgRating.toFixed(1) || '0.0'}</div>
+              <div className="average-score">
+                {avgRating.toFixed(1) || '0.0'}
+              </div>
               <div className="review-stars">
                 {Array.from({ length: 5 }, (_, i) => {
                   const starValue = avgRating - i;
@@ -215,12 +221,20 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
                       key={i}
                       src={src}
                       className="star-icon"
-                      alt={starValue >= 1 ? 'full star' : starValue >= 0.5 ? 'half star' : 'empty star'}
+                      alt={
+                        starValue >= 1
+                          ? 'full star'
+                          : starValue >= 0.5
+                            ? 'half star'
+                            : 'empty star'
+                      }
                     />
                   );
                 })}
               </div>
-              <div className="review-total">{park.park_number_of_reviews} reviews</div>
+              <div className="review-total">
+                {park.park_number_of_reviews} reviews
+              </div>
             </div>
             <button className="leave-review-button" onClick={handleLeaveReview}>
               Leave a Review
@@ -228,9 +242,7 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
           </div>
         )}
         {activeTab === 'More Info' && (
-          <div className="more-info-section">
-            {/* Placeholder */}
-          </div>
+          <div className="more-info-section">{/* Placeholder */}</div>
         )}
       </div>
       {showReviewPopup && (
@@ -245,7 +257,6 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
 };
 
 export default ParkPopup;
-
 
 // Helper sub-component for lists:
 const Section: React.FC<{ title: string; items: string[] }> = ({
