@@ -88,7 +88,7 @@ export default [
 
       // Style
       semi: ['error', 'always'],
-      quotes: ['error', 'single'],
+      quotes: ['error', 'single', { avoidEscape: true }],
       // indent: ['error', 2],
       'max-len': ['error', { code: 80, ignoreStrings: true }],
       'prettier/prettier': [
