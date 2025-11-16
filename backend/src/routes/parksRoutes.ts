@@ -6,18 +6,31 @@ import { ParksFilterParams } from '../types/parkFilters';
 
 const router = Router();
 
+function splitAndClean(value?: string): string[] {
+  return value
+    ? value
+        .split(',')
+        .map((v) => v.trim())
+        .filter(Boolean)
+    : [];
+}
+
+function parseBool(value: unknown): boolean | null {
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  return null;
+}
+
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const filters: ParksFilterParams = {
-      states: (req.query.parkState as string | undefined)?.split(',') || [],
-      regions: (req.query.region as string | undefined)?.split(',') || [],
-      trails: (req.query.trails as string | undefined)?.split(',') || [],
-      camps: (req.query.camps as string | undefined)?.split(',') || [],
-      activities:
-        (req.query.activities as string | undefined)?.split(',') || [],
-      facilities:
-        (req.query.facilities as string | undefined)?.split(',') || [],
-      features: (req.query.features as string | undefined)?.split(',') || [],
+      states: splitAndClean(req.query.parkState as string),
+      regions: splitAndClean(req.query.region as string),
+      trails: splitAndClean(req.query.trails as string),
+      camps: splitAndClean(req.query.camps as string),
+      activities: splitAndClean(req.query.activities as string),
+      facilities: splitAndClean(req.query.facilities as string),
+      features: splitAndClean(req.query.features as string),
       ratingMin: req.query.ratingMin
         ? parseFloat(req.query.ratingMin as string)
         : null,
@@ -27,22 +40,12 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
       entryFeeMax: req.query.entryFeeMax
         ? parseFloat(req.query.entryFeeMax as string)
         : null,
-      parkingFeeMin: req.query.parkingFeeMin
-        ? parseFloat(req.query.parkingFeeMin as string)
-        : null,
-      parkingFeeMax: req.query.parkingFeeMax
-        ? parseFloat(req.query.parkingFeeMax as string)
-        : null,
-      accessibility:
-        (req.query.accessibility as string | undefined)?.split(',') || [],
+      accessibility: splitAndClean(req.query.accessibility as string),
       permits: {
-        drone: req.query['permits[drone]'] as string | null | undefined,
-        fishing: req.query['permits[fishing]'] as string | null | undefined,
-        hunting: req.query['permits[hunting]'] as string | null | undefined,
-        backcountry: req.query['permits[backcountry]'] as
-          | string
-          | null
-          | undefined,
+        drone: parseBool(req.query['permits[drone]']),
+        fishing: parseBool(req.query['permits[fishing]']),
+        hunting: parseBool(req.query['permits[hunting]']),
+        backcountry: parseBool(req.query['permits[backcountry]']),
       },
       distanceAddress: (req.query.distanceAddress as string) || null,
       distanceMiles: req.query.distanceMiles

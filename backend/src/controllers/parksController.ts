@@ -168,3 +168,42 @@ export async function deletePark(
     next(err);
   }
 }
+
+export async function getNearbyParks(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const lat = parseFloat(req.query.lat as string);
+    const lon = parseFloat(req.query.lon as string);
+    const limit = parseInt(req.query.limit as string) || 7;
+
+    if (isNaN(lat) || isNaN(lon)) {
+      res
+        .status(400)
+        .json({ message: 'Invalid or missing lat/lon query params' });
+      return;
+    }
+
+    // Compute distance using PostGIS geography
+    const { rows } = await pool.query(
+      `
+      SELECT
+        p.*,
+        ST_Distance(
+          p.park_location::geography,
+          ST_SetSRID(ST_Point($1, $2), 4326)::geography
+        ) AS distance_meters
+      FROM parks p
+      ORDER BY p.park_location <-> ST_SetSRID(ST_Point($1, $2), 4326)
+      LIMIT $3
+      `,
+      [lon, lat, limit] // Note: longitude first in ST_Point
+    );
+
+    res.json(rows);
+  } catch (err) {
+    next(err);
+  }
+}

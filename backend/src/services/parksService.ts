@@ -1,236 +1,169 @@
 // backend/src/services/parksService.ts
-import { Coordinates, geocodeAddress } from './geocodingService';
 import { ParksFilterParams } from '../types/parkFilters';
 
-/**
- * Build SQL + values for filtering parks.
- * Removed date & weather filters. Removed petPolicy.
- * Includes many-to-many fields as arrays.
- */
-export function buildParksFilterQuery(params: ParksFilterParams): {
-  text: string;
-  values: any[];
-} {
+export function buildParksFilterQuery(filters: ParksFilterParams) {
   const conditions: string[] = [];
   const values: any[] = [];
-  let idx = 1;
 
-  // STATES
-  if (params.states.length) {
-    conditions.push(`p.park_state = ANY($${idx}::text[])`);
-    values.push(params.states);
-    idx++;
+  // Basic filters
+  if (filters.states.length > 0) {
+    conditions.push(`p.park_state = ANY($${values.length + 1})`);
+    values.push(filters.states);
   }
 
-  // REGIONS
-  if (params.regions.length) {
-    conditions.push(`p.park_region = ANY($${idx}::text[])`);
-    values.push(params.regions);
-    idx++;
+  if (filters.regions.length > 0) {
+    conditions.push(`p.park_region = ANY($${values.length + 1})`);
+    values.push(filters.regions);
   }
 
-  // TRAILS filter via EXISTS
-  if (params.trails.length) {
-    conditions.push(
-      `EXISTS (
-         SELECT 1
-         FROM park_trail_types ptt
-         JOIN trail_types tt ON ptt.trail_type_id = tt.trail_type_id
-         WHERE ptt.park_id = p.park_id
-           AND tt.trail_type_name = ANY($${idx}::text[])
-       )`
-    );
-    values.push(params.trails);
-    idx++;
+  if (filters.ratingMin !== null) {
+    conditions.push(`p.park_average_rating >= $${values.length + 1}`);
+    values.push(filters.ratingMin);
   }
 
-  // CAMPS filter via EXISTS
-  if (params.camps.length) {
-    conditions.push(
-      `EXISTS (
-         SELECT 1
-         FROM park_camp_types ptt
-         JOIN camp_types tt ON ptt.camp_type_id = tt.camp_type_id
-         WHERE ptt.park_id = p.park_id
-           AND tt.camp_type_name = ANY($${idx}::text[])
-       )`
-    );
-    values.push(params.camps);
-    idx++;
+  if (filters.entryFeeMin !== null) {
+    conditions.push(`p.park_entry_fee >= $${values.length + 1}`);
+    values.push(filters.entryFeeMin);
   }
 
-  // ACTIVITIES
-  if (params.activities.length) {
-    conditions.push(
-      `EXISTS (
-         SELECT 1
-         FROM park_activities pa
-         JOIN activities a ON pa.activity_id = a.activity_id
-         WHERE pa.park_id = p.park_id
-           AND a.activity_name = ANY($${idx}::text[])
-       )`
-    );
-    values.push(params.activities);
-    idx++;
+  if (filters.entryFeeMax !== null) {
+    conditions.push(`p.park_entry_fee <= $${values.length + 1}`);
+    values.push(filters.entryFeeMax);
   }
 
-  // FACILITIES
-  if (params.facilities.length) {
-    conditions.push(
-      `EXISTS (
-         SELECT 1
-         FROM park_facilities pf
-         JOIN facilities f ON pf.facility_id = f.facility_id
-         WHERE pf.park_id = p.park_id
-           AND f.facility_name = ANY($${idx}::text[])
-       )`
-    );
-    values.push(params.facilities);
-    idx++;
-  }
-
-  // FEATURES
-  if (params.features.length) {
-    conditions.push(
-      `EXISTS (
-         SELECT 1
-         FROM park_features pfeat
-         JOIN features feat ON pfeat.feature_id = feat.feature_id
-         WHERE pfeat.park_id = p.park_id
-           AND feat.feature_name = ANY($${idx}::text[])
-       )`
-    );
-    values.push(params.features);
-    idx++;
-  }
-
-  // RATING
-  if (params.ratingMin !== null) {
-    conditions.push(`p.park_average_rating >= $${idx}`);
-    values.push(params.ratingMin);
-    idx++;
-  }
-
-  // ENTRY FEE
-  if (
-    params.entryFeeMin != null &&
-    params.entryFeeMax != null &&
-    params.groupSize != null &&
-    params.numCars != null &&
-    params.numMotorcycles != null &&
-    params.includeShuttle != null
-  ) {
-    // compute total_cost = groupSize * park_entry_fee
-    //                    + (numCars + numMotorcycles) * park_parking_fee
-    //                    + (includeShuttle ? park_other_fee : 0)
+  // Activity filters
+  if (filters.activities.length > 0) {
     conditions.push(`
-      (
-        ($${idx}::int     * p.park_entry_fee)
-        + (($${idx + 1}::int + $${idx + 2}::int) * p.park_parking_fee)
-        + (CASE WHEN $${idx + 3}::boolean THEN p.park_other_fee ELSE 0 END)
-      ) BETWEEN $${idx + 4}::numeric AND $${idx + 5}::numeric
+      p.park_id IN (
+        SELECT pa.park_id FROM park_activities pa
+        JOIN activities a ON a.activity_id = pa.activity_id
+        WHERE a.activity_name = ANY($${values.length + 1})
+      )
     `);
-    values.push(
-      params.groupSize,
-      params.numCars,
-      params.numMotorcycles,
-      params.includeShuttle,
-      params.entryFeeMin,
-      params.entryFeeMax
-    );
-    idx += 6;
+    values.push(filters.activities);
   }
 
-  // ACCESSIBILITY
-  if (params.accessibility.length) {
-    conditions.push(
-      `EXISTS (
-         SELECT 1
-         FROM park_accessibility pac
-         JOIN accessibility ac ON pac.accessibility_id = ac.accessibility_id
-         WHERE pac.park_id = p.park_id
-           AND ac.accessibility_name = ANY($${idx}::text[])
-       )`
-    );
-    values.push(params.accessibility);
-    idx++;
+  // Facilities
+  if (filters.facilities.length > 0) {
+    conditions.push(`
+      p.park_id IN (
+        SELECT pf.park_id FROM park_facilities pf
+        JOIN facilities f ON f.facility_id = pf.facility_id
+        WHERE f.facility_name = ANY($${values.length + 1})
+      )
+    `);
+    values.push(filters.facilities);
   }
 
-  // PERMITS: drone, fishing, hunting, backcountry
-  if (params.permits) {
-    const permitConds: string[] = [];
+  // Features
+  if (filters.features.length > 0) {
+    conditions.push(`
+      p.park_id IN (
+        SELECT pf.park_id FROM park_features pf
+        JOIN features f ON f.feature_id = pf.feature_id
+        WHERE f.feature_name = ANY($${values.length + 1})
+      )
+    `);
+    values.push(filters.features);
+  }
 
-    if (params.permits.drone) {
-      permitConds.push(`p.park_drone_permit = $${idx}`);
-      values.push(params.permits.drone);
-      idx++;
-    }
-    if (params.permits.fishing) {
-      permitConds.push(`p.park_fishing_permit = $${idx}`);
-      values.push(params.permits.fishing);
-      idx++;
-    }
-    if (params.permits.hunting) {
-      permitConds.push(`p.park_hunting_permit = $${idx}`);
-      values.push(params.permits.hunting);
-      idx++;
-    }
-    if (params.permits.backcountry) {
-      permitConds.push(`p.park_backcountry_permit = $${idx}`);
-      values.push(params.permits.backcountry);
-      idx++;
-    }
+  // Trails
+  if (filters.trails.length > 0) {
+    conditions.push(`
+      p.park_id IN (
+        SELECT pt.park_id FROM park_trail_types pt
+        JOIN trail_types t ON t.trail_type_id = pt.trail_type_id
+        WHERE t.trail_type_name = ANY($${values.length + 1})
+      )
+    `);
+    values.push(filters.trails);
+  }
 
-    if (permitConds.length) {
-      conditions.push(`(${permitConds.join(' AND ')})`);
+  // Camps
+  if (filters.camps.length > 0) {
+    conditions.push(`
+      p.park_id IN (
+        SELECT pc.park_id FROM park_camp_types pc
+        JOIN camp_types c ON c.camp_type_id = pc.camp_type_id
+        WHERE c.camp_type_name = ANY($${values.length + 1})
+      )
+    `);
+    values.push(filters.camps);
+  }
+
+  // Accessibility
+  if (filters.accessibility.length > 0) {
+    conditions.push(`
+      p.park_id IN (
+        SELECT pa.park_id FROM park_accessibility pa
+        JOIN accessibility a ON a.accessibility_id = pa.accessibility_id
+        WHERE a.accessibility_name = ANY($${values.length + 1})
+      )
+    `);
+    values.push(filters.accessibility);
+  }
+
+  // Permits (Yes/No)
+  const permitMap = {
+    drone: 'park_drone_permit',
+    fishing: 'park_fishing_permit',
+    hunting: 'park_hunting_permit',
+    backcountry: 'park_backcountry_permit',
+  } as const;
+
+  for (const [key, column] of Object.entries(permitMap)) {
+    const value = filters.permits[key as keyof typeof permitMap];
+    if (value !== null) {
+      conditions.push(`LOWER(p.${column}) = LOWER($${values.length + 1})`);
+      values.push(value ? 'Yes' : 'No');
     }
   }
 
-  // DISTANCE
-  if (params.distanceAddress && params.distanceMiles !== null) {
-    const coords: Coordinates = geocodeAddress(params.distanceAddress);
-    const radius = params.distanceMiles * 1609.34;
-    conditions.push(
-      `ST_DWithin(
-         p.park_location,
-         ST_SetSRID(ST_Point($${idx + 1}, $${idx}), 4326)::geography,
-         $${idx + 2}
-       )`
-    );
-    values.push(coords.latitude, coords.longitude, radius);
-    idx += 3;
+  // Distance filtering (PostGIS)
+  if (filters.distanceAddress && filters.distanceMiles) {
+    // distanceAddress will be a string like "lat,lon"
+    const coords = filters.distanceAddress.split(',').map(Number);
+    if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+      const [latitude, longitude] = coords;
+      const distanceMeters = filters.distanceMiles * 1609.34;
+
+      // Add distance calculation to the SELECT
+      conditions.push(
+        `ST_DWithin(p.park_location, ST_SetSRID(ST_MakePoint($${
+          values.length + 1
+        }, $${values.length + 2}), 4326)::geography, $${values.length + 3})`
+      );
+
+      values.push(longitude, latitude, distanceMeters);
+    }
   }
 
-  // FINAL SQL with array_agg sub-selects
+  const whereClause =
+    conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
   const text = `
-    SELECT
+    SELECT 
       p.*,
-      COALESCE((SELECT array_agg(tt.trail_type_name)
-        FROM park_trail_types ptt
-        JOIN trail_types tt ON ptt.trail_type_id = tt.trail_type_id
-        WHERE ptt.park_id = p.park_id), '{}') AS trail_types,
-      COALESCE((SELECT array_agg(ct.camp_type_name)
-        FROM park_camp_types pct
-        JOIN camp_types ct ON pct.camp_type_id = ct.camp_type_id
-        WHERE pct.park_id = p.park_id), '{}') AS camp_types,
-      COALESCE((SELECT array_agg(a.activity_name)
-        FROM park_activities pa
-        JOIN activities a ON pa.activity_id = a.activity_id
-        WHERE pa.park_id = p.park_id), '{}') AS activities,
-      COALESCE((SELECT array_agg(f.facility_name)
-        FROM park_facilities pf
-        JOIN facilities f ON pf.facility_id = f.facility_id
-        WHERE pf.park_id = p.park_id), '{}') AS facilities,
-      COALESCE((SELECT array_agg(fe.feature_name)
-        FROM park_features pf2
-        JOIN features fe ON pf2.feature_id = fe.feature_id
-        WHERE pf2.park_id = p.park_id), '{}') AS features,
-      COALESCE((SELECT array_agg(ac.accessibility_name)
-        FROM park_accessibility pac
-        JOIN accessibility ac ON pac.accessibility_id = ac.accessibility_id
-        WHERE pac.park_id = p.park_id), '{}') AS accessibility
+      ST_Y(p.park_location::geometry) AS latitude,
+      ST_X(p.park_location::geometry) AS longitude
+      ${
+        filters.distanceAddress && filters.distanceMiles
+          ? `,
+        ST_Distance(
+          p.park_location,
+          ST_SetSRID(ST_MakePoint(${
+            values.length - 2
+          }, ${values.length - 1}), 4326)::geography
+        ) AS distance_meters`
+          : ''
+      }
     FROM parks p
-    ${conditions.length ? 'WHERE ' + conditions.join('\n  AND ') : ''}
+    ${whereClause}
+    ${
+      filters.distanceAddress && filters.distanceMiles
+        ? 'ORDER BY distance_meters ASC'
+        : 'ORDER BY p.park_name ASC'
+    };
   `;
 
   return { text, values };

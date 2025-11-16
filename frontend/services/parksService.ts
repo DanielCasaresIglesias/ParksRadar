@@ -81,7 +81,7 @@ export async function fetchParks(filters: Filters) {
   if (filters.distanceAddress) {
     qs.append('distanceAddress', filters.distanceAddress);
   }
-  if (filters.distanceMiles !== undefined && filters.distanceMiles !== null) {
+  if (filters.distanceMiles) {
     qs.append('distanceMiles', filters.distanceMiles.toString());
   }
 
@@ -99,6 +99,26 @@ export async function fetchParks(filters: Filters) {
   const response = await fetch(`${API_URL}/parks?${qs.toString()}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch parks: ${response.status}`);
+  }
+  return response.json();
+}
+
+/**
+ * Fetch parks near a given latitude/longitude within a given distance in miles.
+ */
+export async function fetchParksNearLocation(
+  lat: number,
+  lng: number,
+  miles = 50
+) {
+  const qs = new URLSearchParams({
+    distanceAddress: `${lat},${lng}`,
+    distanceMiles: miles.toString(),
+  });
+
+  const response = await fetch(`${API_URL}/parks?${qs.toString()}`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch nearby parks: ${response.status}`);
   }
   return response.json();
 }

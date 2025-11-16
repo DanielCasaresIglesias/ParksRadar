@@ -16,23 +16,15 @@ export interface ParksFilterParams {
   entryFeeMin: number | null;
   entryFeeMax: number | null;
 
-  parkingFeeMin: number | null;
-  parkingFeeMax: number | null;
-
   accessibility: string[];
-  permits?: {
-    drone?: string | null;
-    fishing?: string | null;
-    hunting?: string | null;
-    backcountry?: string | null;
+
+  permits: {
+    drone: boolean | null;
+    fishing: boolean | null;
+    hunting: boolean | null;
+    backcountry: boolean | null;
   };
 
   distanceAddress: string | null;
   distanceMiles: number | null;
-
-  // Cost Filters
-  groupSize?: number | null;
-  numCars?: number | null;
-  numMotorcycles?: number | null;
-  includeShuttle?: boolean;
 }

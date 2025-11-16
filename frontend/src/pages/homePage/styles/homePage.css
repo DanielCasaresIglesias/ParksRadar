@@ -1,29 +1,82 @@
-.image-container {
-    /* position: relative; */
-    width: 100%;
-    height: 50vh;
+/* Container for entire page */
+.home-container {
+  background: #f4f4f4; /* solid color background under the image */
 }
 
-.image {
-    width: 100%;
-    height: 50vh;
-    object-fit: cover;
-    object-position: center;
-    border: none;
+/* HERO SECTION */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 45vh; /* adjust as needed */
+  overflow: visible;
 }
 
-.park-search {
-    position: relative;
-    /* top: 65%;
-    left: 65%; */
-    transform: translate(0%, -70%);
-    color: white;
-    font-size: 1.25rem;
-    font-family: 'K2D', sans-serif;
-    z-index: 10;
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay content */
+.hero-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2rem;
+}
+
+/* Button that hangs halfway off the image */
+.hero-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  pointer-events: none;
+}
+
+.hero-button {
+  pointer-events: auto;
+  padding: 0.75rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: #3b7f43;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease;
+
+  /* Position relative to hero-bottom */
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%); /* 50% DOWN = half off image */
+}
+
+.hero-button:hover {
+  transform: translate(-50%, 50%) scale(1.05);
+}
+
+/* SPACE BELOW */
+.below-hero {
+  margin-top: 5rem; /* creates gap after the overlapping button */
+  padding: 0 2rem;
 }
 
 .parks-near-you {
-    margin-left: 2rem;
-    margin-right: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
