@@ -26,7 +26,7 @@ const ParkCard: React.FC<ParkCardProps> = ({
           <span className="park-type">{parkType}</span>
           <span className="review">
             <span className="star">★</span>{' '}
-            {rating !== undefined ? rating.toFixed(1) : 'N/A'}
+            {!isNaN(Number(rating)) ? Number(rating).toFixed(1) : 'N/A'}
           </span>
         </div>
       </div>
