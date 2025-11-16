@@ -124,17 +124,22 @@ export function buildParksFilterQuery(filters: ParksFilterParams) {
     // distanceAddress will be a string like "lat,lon"
     const coords = filters.distanceAddress.split(',').map(Number);
     if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-      const [latitude, longitude] = coords;
+      const lat = coords[0];
+      const lng = coords[1];
       const distanceMeters = filters.distanceMiles * 1609.34;
 
-      // Add distance calculation to the SELECT
+      // ST_MakePoint expects LONGITUDE first, then LATITUDE
       conditions.push(
-        `ST_DWithin(p.park_location, ST_SetSRID(ST_MakePoint($${
-          values.length + 1
-        }, $${values.length + 2}), 4326)::geography, $${values.length + 3})`
+        `ST_DWithin(
+         p.park_location,
+         ST_SetSRID(ST_MakePoint(
+            $${values.length + 1}, $${values.length + 2}), 4326
+         )::geography,
+         $${values.length + 3}
+       )`
       );
 
-      values.push(longitude, latitude, distanceMeters);
+      values.push(lng, lat, distanceMeters);
     }
   }
 
