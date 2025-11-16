@@ -205,7 +205,9 @@ const ParkPopup: React.FC<ParkPopupProps> = ({ park, onClose }) => {
             </div>
             <div className="average-review">
               <div className="average-score">
-                {avgRating.toFixed(1) || '0.0'}
+                {!isNaN(Number(avgRating))
+                  ? Number(avgRating).toFixed(1)
+                  : 'N/A'}
               </div>
               <div className="review-stars">
                 {Array.from({ length: 5 }, (_, i) => {
