@@ -111,6 +111,7 @@ export async function fetchParksNearLocation(
   lng: number,
   miles = 50
 ) {
+  console.log(`latitude: ${lat}, longitude: ${lng}, miles: ${miles}`);
   const qs = new URLSearchParams({
     distanceAddress: `${lat},${lng}`,
     distanceMiles: miles.toString(),
