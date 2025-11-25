@@ -9,12 +9,12 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  background-color: #3B5425;
+  background-color: #3b5425;
   color: white;
   overflow-x: hidden;
   top: 0;
   left: 0;
-  height: 70px;
+  height: 50px;
 }
 
 .logo {
@@ -41,7 +41,10 @@
 .navbar {
   display: flex;
   margin-left: auto;
+  margin-right: 12rem;
   gap: 15px;
+  height: 100%;
+  align-items: center;
 }
 
 .nav-link {
@@ -83,7 +86,6 @@
   padding: 5px 10px;
   cursor: pointer;
 }
-
 
 /* Hamburger Button (hidden on desktop) */
 .hamburger-button {
@@ -127,7 +129,9 @@
     opacity: 0;
 
     /* Smooth transition effect for both opacity and transform */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transition:
+      transform 0.3s ease-out,
+      opacity 0.3s ease-out;
   }
 
   /* When the mobile menu is open, slide it into view */
@@ -135,7 +139,6 @@
     transform: translateX(0);
     opacity: 1;
   }
-
 
   .mobile-menu-header {
     width: 100%;
@@ -203,4 +206,14 @@
     font-size: 1.6rem;
     text-align: center;
   }
+}
+
+/* Highlight active navbar link */
+.nav-link.active {
+  background-color: #6aa04a;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 20px; /* Adjustable horizontal padding */
+  text-decoration: underline;
 }

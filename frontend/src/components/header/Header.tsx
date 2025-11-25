@@ -1,5 +1,6 @@
 // frontend/src/components/header/Header.tsx
 import React, { useState, useEffect } from 'react';
+// import { useLocation } from 'react-router-dom';
 import ProfileOverlay from './components/ProfileOverlay';
 import LoginOverlay from './components/LoginOverlay';
 import UserControls from './components/UserControls';
@@ -12,6 +13,7 @@ export interface HeaderProps {
   onLogin: (data: LoginData) => void;
   onLogout: () => void;
   onSignup: () => void;
+  disableAuth?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -19,6 +21,7 @@ const Header: React.FC<HeaderProps> = ({
   onLogin,
   onLogout,
   onSignup,
+  disableAuth = true,
 }) => {
   const [showProfileOverlay, setShowProfileOverlay] = useState(false);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
@@ -65,13 +68,16 @@ const Header: React.FC<HeaderProps> = ({
       ) : (
         <>
           <Navbar />
-          <div className="user-controls">
-            <UserControls
-              user={user}
-              toggleProfileOverlay={toggleProfileOverlay}
-              toggleLoginOverlay={toggleLoginOverlay}
-            />
-          </div>
+
+          {!disableAuth && (
+            <div className="user-controls">
+              <UserControls
+                user={user}
+                toggleProfileOverlay={toggleProfileOverlay}
+                toggleLoginOverlay={toggleLoginOverlay}
+              />
+            </div>
+          )}
         </>
       )}
 
@@ -82,44 +88,48 @@ const Header: React.FC<HeaderProps> = ({
               ✕
             </button>
           </div>
+
           <div className="mobile-menu-content">
             <div className="mobile-navbar">
               <Navbar />
             </div>
-            <div className="mobile-account-section">
-              {user ? (
-                <div className="mobile-account">
-                  <button
-                    onClick={() => setAccountMenuOpen(!accountMenuOpen)}
-                    className="mobile-account-button"
-                  >
-                    Account
-                  </button>
-                  {accountMenuOpen && (
-                    <div className="mobile-account-submenu">
-                      <a href="/profile" className="mobile-account-option">
-                        Profile
-                      </a>
-                      <button
-                        onClick={onLogout}
-                        className="mobile-account-option"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <a href="/login" className="login-button">
-                  Login
-                </a>
-              )}
-            </div>
+
+            {!disableAuth && (
+              <div className="mobile-account-section">
+                {user ? (
+                  <div className="mobile-account">
+                    <button
+                      onClick={() => setAccountMenuOpen(!accountMenuOpen)}
+                      className="mobile-account-button"
+                    >
+                      Account
+                    </button>
+                    {accountMenuOpen && (
+                      <div className="mobile-account-submenu">
+                        <a href="/profile" className="mobile-account-option">
+                          Profile
+                        </a>
+                        <button
+                          onClick={onLogout}
+                          className="mobile-account-option"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <a href="/login" className="login-button">
+                    Login
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {showProfileOverlay && user && (
+      {!disableAuth && showProfileOverlay && user && (
         <ProfileOverlay
           user={user}
           onClose={() => setShowProfileOverlay(false)}
@@ -127,7 +137,7 @@ const Header: React.FC<HeaderProps> = ({
         />
       )}
 
-      {showLoginOverlay && (
+      {!disableAuth && showLoginOverlay && (
         <LoginOverlay
           onClose={() => setShowLoginOverlay(false)}
           onLogin={onLogin}
