@@ -54,6 +54,7 @@
   font-family: 'K2D', sans-serif;
   margin-left: var(--navbar-margin-size);
   text-decoration: underline;
+  padding: 1.5rem;
 }
 
 .user-controls {
@@ -214,6 +215,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 20px; /* Adjustable horizontal padding */
-  text-decoration: underline;
+  /* padding: 0 20px; */
+  /* text-decoration: underline; */
 }
