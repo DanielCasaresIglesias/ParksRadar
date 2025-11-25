@@ -57,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className="header">
       <a href="/" className="logo">
-        <img src="/images/logo.png" alt="Logo" className="logo-image" />
+        <img src="/images/compass.png" alt="Logo" className="logo-image" />
         <span className="website-name">Park Radar</span>
       </a>
 

@@ -2,66 +2,265 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <title>ParkRadar</title>
 
     <!-- ─────────── Filter icons (base) ─────────── -->
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/accessibility-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/activities-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/camps-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/cost-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/date-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/distance-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/facilities-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/features-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/more-filters-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/parking-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/permit-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/pet-policy-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/rating-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/region-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/state-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/trails-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/base-icons/weather-icon.png">
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/accessibility-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/activities-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/camps-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/cost-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/date-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/distance-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/facilities-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/features-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/more-filters-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/parking-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/permit-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/pet-policy-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/rating-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/region-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/state-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/trails-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/base-icons/weather-icon.png"
+    />
 
     <!-- ─────────── Filter icons (selected) ─────────── -->
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/accessibility-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/activities-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/camps-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/cost-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/date-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/distance-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/facilities-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/features-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/more-filters-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/parking-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/permit-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/pet-policy-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/rating-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/region-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/state-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/trails-icon.png">
-    <link rel="preload" as="image" href="/images/filter-icons/selected-icons/weather-icon.png">
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/accessibility-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/activities-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/camps-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/cost-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/date-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/distance-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/facilities-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/features-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/more-filters-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/parking-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/permit-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/pet-policy-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/rating-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/region-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/state-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/trails-icon.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/filter-icons/selected-icons/weather-icon.png"
+    />
 
     <!-- ─────────── Park-popup icons (trails & camps) ─────────── -->
-    <link rel="preload" as="image" href="/images/park-info-icons/active/hiking.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/hiking.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/horseback-riding.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/horseback-riding.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/wheelchair-accessible.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/wheelchair-accessible.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/mountain-biking.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/mountain-biking.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/tent.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/tent.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/backcountry.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/backcountry.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/rv.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/rv.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/active/cabin.png">
-    <link rel="preload" as="image" href="/images/park-info-icons/inactive/cabin.png">
-
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/hiking.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/hiking.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/horseback-riding.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/horseback-riding.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/wheelchair-accessible.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/wheelchair-accessible.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/mountain-biking.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/mountain-biking.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/tent.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/tent.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/backcountry.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/backcountry.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/rv.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/rv.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/active/cabin.png"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/park-info-icons/inactive/cabin.png"
+    />
   </head>
   <body>
     <div id="root"></div>
